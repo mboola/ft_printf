@@ -40,9 +40,9 @@ void	choose_conversion(char const *str, int *err, va_list va)
 	else if (*str == 'i' || *str == 'd')
 		ft_putnbr_base_err(va_arg(va, int), DECBASE, err, 10);
 	else if (*str == 'x')
-		ft_putnbr_base_err(va_arg(va, int), HEXBASELOW, err, 16);
+		ft_unsputnbr_base_err(va_arg(va, int), HEXBASELOW, err, 16);
 	else if (*str == 'X')
-		ft_putnbr_base_err(va_arg(va, int), HEXBASEHIG, err, 16);
+		ft_unsputnbr_base_err(va_arg(va, int), HEXBASEHIG, err, 16);
 	else if (*str == '%')
 		ft_putchar_err('%', err);
 	else
