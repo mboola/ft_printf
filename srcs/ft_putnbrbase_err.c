@@ -12,24 +12,24 @@
 
 #include "ft_printf.h"
 
-static void	put_nbr(unsigned int num, char *base, int *err)
+static void	put_nbr(unsigned int num, char *base, int *err, int len)
 {
-	if (num / 10 < 1)
+	if (num / len < 1)
 		ft_putchar_err(base[num], err);
 	else
 	{
-		put_nbr(num / 10, base, err);
+		put_nbr(num / len, base, err, len);
 		if (!*err)
-			ft_putchar_err(base[(num % 10)], err);
+			ft_putchar_err(base[(num % len)], err);
 	}
 }
 
-void	ft_putnbr_unsigned_base_err(unsigned int nbr, char *base, int *err)
+void	ft_unsputnbr_base_err(unsigned int nbr, char *base, int *err, int len)
 {
-	put_nbr(nbr, base, err);
+	put_nbr(nbr, base, err, len);
 }
 
-void	ft_putnbr_base_err(int nbr, char *base, int *err)
+void	ft_putnbr_base_err(int nbr, char *base, int *err, int len)
 {
 	unsigned int	num;
 
@@ -41,5 +41,5 @@ void	ft_putnbr_base_err(int nbr, char *base, int *err)
 	else
 		num = nbr;
 	if (!*err)
-		put_nbr(num, base, err);
+		put_nbr(num, base, err, len);
 }

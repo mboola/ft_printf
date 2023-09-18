@@ -35,7 +35,7 @@ void	ft_putchar_err(char c, int *err);
 void	ft_putstr_err(char *str, int *err);
 //void	ft_putptr_err(, int *err);
 
-void    ft_putnbr_unsigned_base_err(unsigned int nbr, char *base, int *err);
-void	ft_putnbr_base_err(int nbr, char *base, int *err);
+void    ft_unsputnbr_base_err(unsigned int nbr, char *base, int *err, int len);
+void	ft_putnbr_base_err(int nbr, char *base, int *err, int len);
 
 #endif

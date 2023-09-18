@@ -36,13 +36,13 @@ void	choose_conversion(char const *str, int *err, va_list va)
 	//else if (*str == 'p')
 	//	ft_putptr_err();
 	else if (*str == 'u')
-		ft_putnbr_unsigned_base_err(va_arg(va, int), DECBASE, err);
+		ft_unsputnbr_base_err(va_arg(va, int), DECBASE, err, 10);
 	else if (*str == 'i' || *str == 'd')
-		ft_putnbr_base_err(va_arg(va, int), DECBASE, err);
+		ft_putnbr_base_err(va_arg(va, int), DECBASE, err, 10);
 	else if (*str == 'x')
-		ft_putnbr_base_err(va_arg(va, int), HEXBASELOW, err);
+		ft_putnbr_base_err(va_arg(va, int), HEXBASELOW, err, 16);
 	else if (*str == 'X')
-		ft_putnbr_base_err(va_arg(va, int), HEXBASEHIG, err);
+		ft_putnbr_base_err(va_arg(va, int), HEXBASEHIG, err, 16);
 	else if (*str == '%')
 		ft_putchar_err('%', err);
 	else
