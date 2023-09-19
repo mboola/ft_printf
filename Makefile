@@ -3,17 +3,17 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = libftprintf.a
 
-INCLUDES = includes
+INCLUDES = .
 HEADER = ${INCLUDES}/ft_printf.h
 
-SRCS = srcs
+SRCS = .
 FILES = ${SRCS}/ft_conversions.c ${SRCS}/ft_putnbrbase_err.c ${SRCS}/ft_printf.c 
 
 OBJS = ${FILES:.c=.o}
 
 # COMPILE
 
-%.o: %.c ${HEADER}
+%.o: %.c ${HEADER} Makefile
 	${CC} ${CFLAGS} -I ${INCLUDES} -c $< -o $@
 
 # RULES
@@ -21,7 +21,7 @@ OBJS = ${FILES:.c=.o}
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	ar -rc ${NAME} ${OBJS}
+	ar -rc $@ ${OBJS}
 
 clean:
 	rm -f ${OBJS}
