@@ -9,8 +9,27 @@
 /*   Updated: 2023/09/14 12:58:30 by mpovill-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/14 12:58:29 by mpovill-          #+#    #+#             */
+/*   Updated: 2023/09/14 12:58:30 by mpovill-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int	ft_putptr(void *ptr, int *err)
+{
+	unsigned long	addr;
+
+	if (write(1, "0x", 2) < 0)
+		*err = -1;
+	if (!*err)
+	{
+		addr = (unsigned long)ptr;
+		return (ft_unsputnbr_base_err(addr, HEXBASELOW, err, 16));
+	}
+	return (0);
+}
 
 int	ft_putchar_err(char c, int *err)
 {
@@ -44,6 +63,8 @@ int	choose_conversion(char const *str, int *err, va_list va)
 		count = ft_putstr_err(va_arg(va, char *), err);
 	else if (*str == 'u')
 		count = ft_unsputnbr_base_err(va_arg(va, int), DECBASE, err, 10);
+	else if (*str == 'p')
+		count = ft_putptr(va_arg(va, void *), err);
 	else if (*str == 'i' || *str == 'd')
 		count = ft_putnbr_base_err(va_arg(va, int), DECBASE, err, 10);
 	else if (*str == 'x')

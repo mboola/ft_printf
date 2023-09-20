@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static int	put_nbr(unsigned int num, char *base, int *err, int len)
+static int	put_nbr(unsigned long num, char *base, int *err, int len)
 {
 	int	count;
 
@@ -27,7 +27,7 @@ static int	put_nbr(unsigned int num, char *base, int *err, int len)
 	}
 }
 
-int	ft_unsputnbr_base_err(unsigned int nbr, char *base, int *err, int len)
+int	ft_unsputnbr_base_err(unsigned long nbr, char *base, int *err, int len)
 {
 	return (put_nbr(nbr, base, err, len));
 }
