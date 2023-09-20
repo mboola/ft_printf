@@ -42,6 +42,12 @@ int	ft_putstr_err(char *str, int *err)
 {
 	int	count;
 
+	if (str == NULL)
+	{
+		if (write(1, "(null)", 5) < 0)
+			*err = -1;
+		return (5);
+	}
 	count = 0;
 	while (*str != '\0' && !*err)
 	{
