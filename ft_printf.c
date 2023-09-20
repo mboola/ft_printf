@@ -37,6 +37,6 @@ int	ft_printf(char const *str, ...)
 	}
 	va_end(va);
 	if (err)
-		return (0);
+		return (-1);
 	return (count);
 }

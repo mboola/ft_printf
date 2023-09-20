@@ -17,20 +17,6 @@
 
 #include "ft_printf.h"
 
-int	ft_putptr(void *ptr, int *err)
-{
-	unsigned long	addr;
-
-	if (write(1, "0x", 2) < 0)
-		*err = -1;
-	if (!*err)
-	{
-		addr = (unsigned long)ptr;
-		return (ft_unsputnbr_base_err(addr, HEXBASELOW, err, 16));
-	}
-	return (0);
-}
-
 int	ft_putchar_err(char c, int *err)
 {
 	if (write(1, &c, 1) < 0)
@@ -44,9 +30,9 @@ int	ft_putstr_err(char *str, int *err)
 
 	if (str == NULL)
 	{
-		if (write(1, "(null)", 5) < 0)
+		if (write(1, "(null)", 6) < 0)
 			*err = -1;
-		return (5);
+		return (6);
 	}
 	count = 0;
 	while (*str != '\0' && !*err)
@@ -56,6 +42,20 @@ int	ft_putstr_err(char *str, int *err)
 		count++;
 	}
 	return (count);
+}
+
+int	ft_putptr(void *ptr, int *err)
+{
+	unsigned long	addr;
+
+	if (write(1, "0x", 2) < 0)
+		*err = -1;
+	if (!*err)
+	{
+		addr = (unsigned long)ptr;
+		return (ft_longputnbr_base_err(addr, HEXBASELOW, err, 16) + 2);
+	}
+	return (0);
 }
 
 int	choose_conversion(char const *str, int *err, va_list va)
