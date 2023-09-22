@@ -26,11 +26,12 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "./libft/libft.h"
 
-int	ft_printf(char const *str, ...);
+int	    ft_printf(char const *str, ...);
+void	ft_putstr_lst(t_list *lst, int *err);
+
 int	choose_conversion(char const *str, int *err, va_list va);
-int	ft_putchar_err(char c, int *err);
-int	ft_putstr_err(char *str, int *err);
 int	ft_putnbr_base_err(int nbr, char *base, int *err, int len);
 int	ft_unsputnbr_base_err(unsigned int nbr, char *base, int *err, int len);
 int	ft_longputnbr_base_err(unsigned long nbr, char *base, int *err, int len);

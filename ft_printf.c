@@ -12,31 +12,69 @@
 
 #include "ft_printf.h"
 
+static void	del_node(void *content)
+{
+	free(content);
+}
+
+static t_list	*create_node(char c)
+{
+	char	*ptr;
+	t_list	*node;
+
+	ptr = malloc(sizeof(char));
+	if (ptr == NULL)
+		return (NULL);
+	*ptr = c;
+	node = ft_lstnew(ptr);
+	if (node == NULL)
+	{
+		del_node(ptr);
+		return (NULL);
+	}
+	return (node);
+}
+
+static t_list	*ft_mapstr(char const *str, va_list va, int *err)
+{
+	t_list	*lst;
+	t_list	*node;
+
+	va = va + 1;
+	lst = NULL;
+	while (*str != '\0' && !*err)
+	{
+		node = create_node(*str);
+		if (node == NULL)
+		{
+			*err = 1;
+			ft_lstclear(&lst, del_node);
+			return (NULL);
+		}
+		ft_lstadd_back(&lst, node);
+		str++;
+	}
+	return (lst);
+}
+
 int	ft_printf(char const *str, ...)
 {
 	int		err;
-	int		count;
 	va_list	va;
+	t_list	*lst;
 
+	if (str == NULL)
+		return (-1);
 	err = 0;
-	count = 0;
 	va_start(va, str);
-	while (*str != '\0' && !err)
-	{
-		if (*str == '%')
-		{
-			str++;
-			count += choose_conversion(str, &err, va);
-		}
-		else
-		{
-			ft_putchar_err(*str, &err);
-			count++;
-		}
-		str++;
-	}
+	lst = ft_mapstr(str, va, &err);
 	va_end(va);
 	if (err)
 		return (-1);
-	return (count);
+	ft_putstr_lst(lst, &err);
+	if (err)
+		return (-1);
+	err = ft_lstsize(lst);
+	ft_lstclear(&lst, del_node);
+	return (err);
 }
