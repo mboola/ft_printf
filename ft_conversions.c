@@ -17,69 +17,68 @@
 
 #include "ft_printf.h"
 
-int	ft_putchar_err(char c, int *err)
+t_list	*str_to_lst(char *str, int *err)
 {
-	if (write(1, &c, 1) < 0)
-		*err = -1;
-	return (1);
-}
-
-int	ft_putstr_err(char *str, int *err)
-{
-	int	count;
+	t_list	*lst;
+	t_list	*node;
 
 	if (str == NULL)
+		return (NULL);
+	lst = NULL;
+	while (*str != '\0')
 	{
-		if (write(1, "(null)", 6) < 0)
-			*err = -1;
-		return (6);
-	}
-	count = 0;
-	while (*str != '\0' && !*err)
-	{
-		ft_putchar_err(*str, err);
+		node = create_node(*str, &lst, err);
+		if (node == NULL)
+			return (NULL);
+		ft_lstadd_back(&lst, node);
 		str++;
-		count++;
 	}
-	return (count);
+	return (lst);
 }
 
-int	ft_putptr(void *ptr, int *err)
+t_list	*ft_putptr(void *ptr, int *err)
 {
 	unsigned long	addr;
+	t_list			*lst;
+	t_list			*node;
 
-	if (write(1, "0x", 2) < 0)
-		*err = -1;
-	if (!*err)
-	{
-		addr = (unsigned long)ptr;
-		return (ft_longputnbr_base_err(addr, HEXBASELOW, err, 16) + 2);
-	}
-	return (0);
+	node = str_to_lst("0x", err);
+	if (node == NULL)
+		return (NULL);
+	lst = NULL;
+	ft_lstadd_back(&lst, node);
+	addr = (unsigned long)ptr;
+	node = putnbr_uns_err(addr, HEXBASEL, err);
+	if (node == NULL)
+		return (NULL);
+	ft_lstadd_back(&lst, node);
+	return (lst);
 }
 
-int	choose_conversion(char const *str, int *err, va_list va)
+void	choose_conversion(char const *str, t_list **lst, int *err, va_list va)
 {
-	int	count;
+	t_list	*node;
 
-	count = 0;
 	if (*str == 'c')
-		count = ft_putchar_err(va_arg(va, int), err);
+		node = create_node(va_arg(va, int), lst, err);
 	else if (*str == 's')
-		count = ft_putstr_err(va_arg(va, char *), err);
+		node = str_to_lst(va_arg(va, char *), err);
 	else if (*str == 'u')
-		count = ft_unsputnbr_base_err(va_arg(va, int), DECBASE, err, 10);
+		node = putnbr_uns_err((unsigned long)(va_arg(va, int)), DECBASE, err);
 	else if (*str == 'p')
-		count = ft_putptr(va_arg(va, void *), err);
+		node = ft_putptr(va_arg(va, void *), err);
 	else if (*str == 'i' || *str == 'd')
-		count = ft_putnbr_base_err(va_arg(va, int), DECBASE, err, 10);
+		node = putnbr_sig_err(va_arg(va, int), DECBASE, err);
 	else if (*str == 'x')
-		count = ft_unsputnbr_base_err(va_arg(va, int), HEXBASELOW, err, 16);
+		node = putnbr_uns_err((unsigned long)(va_arg(va, int)), HEXBASEL, err);
 	else if (*str == 'X')
-		count = ft_unsputnbr_base_err(va_arg(va, int), HEXBASEHIG, err, 16);
+		node = putnbr_uns_err((unsigned long)(va_arg(va, int)), HEXBASEH, err);
 	else if (*str == '%')
-		count = ft_putchar_err('%', err);
+		node = create_node('%', NULL, err);
 	else
 		*err = -1;
-	return (count);
+	if (!*err && node != NULL)
+		ft_lstadd_back(lst, node);
+	else
+		ft_lstclear(lst, del_node);
 }

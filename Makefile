@@ -12,7 +12,7 @@ INCLUDES_PRINTF = .
 
 SRCS = .
 FILES = ${SRCS}/ft_conversions.c ${SRCS}/ft_putnbrbase_err.c ${SRCS}/ft_printf.c \
-		${SRCS}/ft_printinfo.c
+		${SRCS}/ft_printinfo.c ${SRCS}/ft_itoa_base.c
 
 OBJS = ${FILES:.c=.o}
 

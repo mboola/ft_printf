@@ -13,11 +13,11 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# ifndef HEXBASELOW
-#  define HEXBASELOW "0123456789abcdef"
+# ifndef HEXBASEL
+#  define HEXBASEL "0123456789abcdef"
 # endif
-# ifndef HEXBASEHIG
-#  define HEXBASEHIG "0123456789ABCDEF"
+# ifndef HEXBASEH
+#  define HEXBASEH "0123456789ABCDEF"
 # endif
 # ifndef DECBASE
 #  define DECBASE "0123456789"
@@ -28,10 +28,17 @@
 # include <stdlib.h>
 # include "./libft/libft.h"
 
-int	    ft_printf(char const *str, ...);
+int		ft_printf(char const *str, ...);
+t_list	*create_node(char c, t_list **lst, int *err);
+void	del_node(void *content);
 void	ft_putstr_lst(t_list *lst, int *err);
+void	choose_conversion(char const *str, t_list **lst, int *err, va_list va);
+t_list	*str_to_lst(char *str, int *err);
+char	*ft_itoa_base_unsigned(unsigned long n, char *base);
+char	*ft_itoa_base_signed(int n, char *base);
+t_list	*putnbr_uns_err(unsigned long nbr, char *base, int *err);
+t_list	*putnbr_sig_err(int nbr, char *base, int *err);
 
-int	choose_conversion(char const *str, int *err, va_list va);
 int	ft_putnbr_base_err(int nbr, char *base, int *err, int len);
 int	ft_unsputnbr_base_err(unsigned int nbr, char *base, int *err, int len);
 int	ft_longputnbr_base_err(unsigned long nbr, char *base, int *err, int len);

@@ -12,23 +12,29 @@
 
 #include "ft_printf.h"
 
-static void	del_node(void *content)
+void	del_node(void *content)
 {
 	free(content);
 }
 
-static t_list	*create_node(char c)
+t_list	*create_node(char c, t_list **lst, int *err)
 {
 	char	*ptr;
 	t_list	*node;
 
 	ptr = malloc(sizeof(char));
 	if (ptr == NULL)
+	{
+		*err = 1;
+		ft_lstclear(lst, del_node);
 		return (NULL);
+	}
 	*ptr = c;
 	node = ft_lstnew(ptr);
 	if (node == NULL)
 	{
+		*err = 1;
+		ft_lstclear(lst, del_node);
 		del_node(ptr);
 		return (NULL);
 	}
@@ -40,18 +46,21 @@ static t_list	*ft_mapstr(char const *str, va_list va, int *err)
 	t_list	*lst;
 	t_list	*node;
 
-	va = va + 1;
 	lst = NULL;
 	while (*str != '\0' && !*err)
 	{
-		node = create_node(*str);
-		if (node == NULL)
+		if (*str == '%')
 		{
-			*err = 1;
-			ft_lstclear(&lst, del_node);
-			return (NULL);
+			str++;
+			choose_conversion(str, &lst, err, va);
 		}
-		ft_lstadd_back(&lst, node);
+		else
+		{
+			node = create_node(*str, &lst, err);
+			if (node == NULL)
+				return (NULL);
+			ft_lstadd_back(&lst, node);
+		}
 		str++;
 	}
 	return (lst);

@@ -12,60 +12,36 @@
 
 #include "ft_printf.h"
 
-static int	put_nbr_long(unsigned long num, char *base, int *err, int len)
+t_list	*putnbr_uns_err(unsigned long nbr, char *base, int *err)
 {
-	int	count;
+	char	*str;
+	t_list	*lst;
 
-	if (num / len < 1)
-		return (ft_putchar_err(base[num], err));
-	else
+	str = ft_itoa_base_unsigned(nbr, base);
+	if (str == NULL)
 	{
-		count = put_nbr_long(num / len, base, err, len);
-		if (!*err)
-			count += ft_putchar_err(base[(num % len)], err);
-		return (count);
+		*err = 1;
+		return (NULL);
 	}
+	lst = str_to_lst(str, err);
+	if (lst == NULL)
+		return (NULL);
+	return (lst);
 }
 
-int	ft_longputnbr_base_err(unsigned long nbr, char *base, int *err, int len)
+t_list	*putnbr_sig_err(int nbr, char *base, int *err)
 {
-	return (put_nbr_long(nbr, base, err, len));
-}
+	char	*str;
+	t_list	*lst;
 
-static int	put_nbr_int(unsigned int num, char *base, int *err, int len)
-{
-	int	count;
-
-	if (num / len < 1)
-		return (ft_putchar_err(base[num], err));
-	else
+	str = ft_itoa_base_signed(nbr, base);
+	if (str == NULL)
 	{
-		count = put_nbr_int(num / len, base, err, len);
-		if (!*err)
-			count += ft_putchar_err(base[(num % len)], err);
-		return (count);
+		*err = 1;
+		return (NULL);
 	}
-}
-
-int	ft_unsputnbr_base_err(unsigned int nbr, char *base, int *err, int len)
-{
-	return (put_nbr_int(nbr, base, err, len));
-}
-
-int	ft_putnbr_base_err(int nbr, char *base, int *err, int len)
-{
-	unsigned int	num;
-	int				count;
-
-	count = 0;
-	if (nbr < 0)
-	{
-		count += ft_putchar_err('-', err);
-		num = nbr * -1;
-	}
-	else
-		num = nbr;
-	if (!*err)
-		return (put_nbr_int(num, base, err, len) + count);
-	return (count);
+	lst = str_to_lst(str, err);
+	if (lst == NULL)
+		return (NULL);
+	return (lst);
 }
