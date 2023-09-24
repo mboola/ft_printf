@@ -29,18 +29,15 @@
 # include "./libft/libft.h"
 
 int		ft_printf(char const *str, ...);
-t_list	*create_node(char c, t_list **lst, int *err);
-void	del_node(void *content);
-void	ft_putstr_lst(t_list *lst, int *err);
-void	choose_conversion(char const *str, t_list **lst, int *err, va_list va);
 t_list	*str_to_lst(char *str, int *err);
-char	*ft_itoa_base_unsigned(unsigned long n, char *base);
-char	*ft_itoa_base_signed(int n, char *base);
-t_list	*putnbr_uns_err(unsigned long nbr, char *base, int *err);
+void	del_node(void *content);
+t_list	*create_lst(char c, t_list **lst, int *err);
+void	print_lst(t_list *lst, int *err);
+t_list	*ft_putptr(void *ptr, char *base, int *err);
+void	choose_conversion(char const *str, t_list **lst, int *err, va_list va);
+t_list	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
 t_list	*putnbr_sig_err(int nbr, char *base, int *err);
-
-int	ft_putnbr_base_err(int nbr, char *base, int *err, int len);
-int	ft_unsputnbr_base_err(unsigned int nbr, char *base, int *err, int len);
-int	ft_longputnbr_base_err(unsigned long nbr, char *base, int *err, int len);
+char	*ft_itoa_base(unsigned int n, char *base, char *str, int size);
+char	*ft_itoa_base_long(unsigned long n, char *base, int *err);
 
 #endif

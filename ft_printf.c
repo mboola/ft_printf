@@ -12,36 +12,7 @@
 
 #include "ft_printf.h"
 
-void	del_node(void *content)
-{
-	free(content);
-}
-
-t_list	*create_node(char c, t_list **lst, int *err)
-{
-	char	*ptr;
-	t_list	*node;
-
-	ptr = malloc(sizeof(char));
-	if (ptr == NULL)
-	{
-		*err = 1;
-		ft_lstclear(lst, del_node);
-		return (NULL);
-	}
-	*ptr = c;
-	node = ft_lstnew(ptr);
-	if (node == NULL)
-	{
-		*err = 1;
-		ft_lstclear(lst, del_node);
-		del_node(ptr);
-		return (NULL);
-	}
-	return (node);
-}
-
-static t_list	*ft_mapstr(char const *str, va_list va, int *err)
+static t_list	*ft_create_final_lst(char const *str, va_list va, int *err)
 {
 	t_list	*lst;
 	t_list	*node;
@@ -56,7 +27,7 @@ static t_list	*ft_mapstr(char const *str, va_list va, int *err)
 		}
 		else
 		{
-			node = create_node(*str, &lst, err);
+			node = create_lst(*str, &lst, err);
 			if (node == NULL)
 				return (NULL);
 			ft_lstadd_back(&lst, node);
@@ -76,11 +47,11 @@ int	ft_printf(char const *str, ...)
 		return (-1);
 	err = 0;
 	va_start(va, str);
-	lst = ft_mapstr(str, va, &err);
+	lst = ft_create_final_lst(str, va, &err);
 	va_end(va);
 	if (err)
 		return (-1);
-	ft_putstr_lst(lst, &err);
+	print_lst(lst, &err);
 	if (err)
 		return (-1);
 	err = ft_lstsize(lst);
