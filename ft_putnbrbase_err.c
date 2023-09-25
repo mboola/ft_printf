@@ -86,7 +86,7 @@ t_list	*putnbr_sig_err(int nbr, char *base, int *err)
 	if (nbr < 0)
 	{
 		*str = '-';
-		ft_itoa_base(nbr * -1, base, str + 1, size);
+		ft_itoa_base(nbr * -1, base, str + 1, size - 1);
 	}
 	else
 		str = ft_itoa_base(nbr, base, str, size);

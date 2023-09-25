@@ -81,15 +81,15 @@ static void	ft_putchar_err(char c, int *err)
 void	print_lst(t_list *lst, int *err)
 {
 	if (lst == NULL)
-		*err = 1;
+		return ;
 	else
 	{
 		while (lst->next != NULL && !*err)
 		{
-			ft_putchar_err(*(char *)(lst->content), err);
+			ft_putchar_err(*(unsigned char *)(lst->content), err);
 			lst = lst->next;
 		}
 		if (!*err)
-			ft_putchar_err(*(char *)(lst->content), err);
+			ft_putchar_err(*(unsigned char *)(lst->content), err);
 	}
 }

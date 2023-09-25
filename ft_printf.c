@@ -53,7 +53,10 @@ int	ft_printf(char const *str, ...)
 		return (-1);
 	print_lst(lst, &err);
 	if (err)
+	{
+		ft_lstclear(&lst, del_node);
 		return (-1);
+	}
 	err = ft_lstsize(lst);
 	ft_lstclear(&lst, del_node);
 	return (err);
