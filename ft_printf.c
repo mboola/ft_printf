@@ -31,10 +31,7 @@ int	ft_printf(char const *str, ...)
 			count += choose_conversion(str, &err, va);
 		}
 		else
-		{
-			ft_putchar_err(*str, &err);
-			count++;
-		}
+			count += ft_putchar_err(*str, &err);
 		str++;
 	}
 	va_end(va);

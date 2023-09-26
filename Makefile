@@ -3,9 +3,9 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-LIBFT_DIR = ./libft
-LIBFT = libft.a
-PRINTF = libftprintf.a
+LIBFT_DIR 		=	./libft
+LIBFT 			=	libft.a
+NAME 			=	libftprintf.a
 
 SRCS 			= 	.
 HEADER 			= 	${SRCS}/ft_printf.h
@@ -29,13 +29,13 @@ BONUS_OBJS		=	$(BONUS_FILES:_bonus.c=_bonus.o)
 
 # RULES
 
-all: ${PRINTF}
+all: ${NAME}
 
 ${LIBFT}:
 	@cd ${LIBFT_DIR} && make
 	@cd ${LIBFT_DIR} && mv ${LIBFT} ../
 
-${PRINTF}: ${OBJS}
+${NAME}: ${OBJS}
 	@ar rcs $@ ${OBJS}
 	@echo "Compilation of $@ succesfull"
 
@@ -47,13 +47,13 @@ clean:
 fclean: clean
 	@cd ${LIBFT_DIR} && make fclean
 	@rm -f ${LIBFT}
-	@rm -f ${PRINTF}
+	@rm -f ${NAME}
 
 re: fclean all
 
 bonus: ${LIBFT} ${BONUS_OBJS}
-	@mv ${LIBFT} ${PRINTF}
-	@ar rcs ${PRINTF} ${BONUS_OBJS}
+	@mv ${LIBFT} ${NAME}
+	@ar rcs ${NAME} ${BONUS_OBJS}
 	@echo "Compilation of $@ succesfull"
 	
 .PHONY: all clean fclean re bonus

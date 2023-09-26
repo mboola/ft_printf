@@ -71,4 +71,3 @@ void	choose_conversion(char const *str, t_list **lst, int *err, va_list va)
 	else
 		ft_lstclear(lst, del_node);
 }
-
