@@ -23,7 +23,7 @@ static t_list	*ft_create_final_lst(char const *str, va_list va, int *err)
 		if (*str == '%')
 		{
 			str++;
-			choose_conversion(str, &lst, err, va);
+			manage_percent(str, &lst, err, va);
 		}
 		else
 		{

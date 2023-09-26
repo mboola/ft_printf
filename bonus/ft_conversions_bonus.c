@@ -44,7 +44,98 @@ t_list	*ft_putptr(void *ptr, char *base, int *err)
 	return (lst);
 }
 
-void	choose_conversion(char const *str, t_list **lst, int *err, va_list va)
+static int is_conversion(char const c)
+{
+	if (c == 'c' || c == 's' || c == 'u' || c == 'p' || c == 'i' || c == 'd' 
+		|| c == 'x' || c == 'X' || c == '%')
+		return (1);
+	return (0);
+}
+
+static int	is_flag(char const c)
+{
+	if (c == '.' || c == '#' || c == ' ' || c == '+' || c == '-' || c == '0')
+		return (1);
+	return (0);
+}
+
+static char get_flag(const char *str)
+{
+	if (!is_flag(*str) && !ft_is_digit(*str))
+		return (-1);
+	return (*str);
+}
+
+static char	get_conversion(const char *str)
+{
+	char	flag;
+	while (*str != '\0' && !is_conversion(*str))
+		str++;
+	if (is_conversion(*str))
+		return ((char)*str);
+	return (-1);
+}
+
+static int	get_num(const char *str, char flag)
+{
+	int	num;
+
+	if (is_flag(flag))
+		str++;
+	num = ft_atoi(str);
+	if (num < 1)
+		return(-1);
+	return (num);
+}
+
+static t_list	redo_node(char c, char flag, int num, t_list lst)
+{
+	t_list	*node;
+
+	if (flag == '.' && c == 's')
+		//cosas
+	else if ((flag == '.' || flag == '0') && (c == 'u' || c == 'i' || c == 'd'
+		|| c == 'x' || c == 'X'))
+		//cosas
+	else if (flag == '-' && c != '%')
+		//cosas
+	else if (ft_isdigit(flag) && c != '%')
+		//cosas
+	else if (flag == '+' && (c == 'i' || c == 'd'))
+		//cosas
+	else if (flag == ' ' && (c == 'i' || c == 'd'))
+		//cosas
+	else if ((flag == '#') && (c == 'x' || c == 'X'))
+		//cosas
+	else
+		node = NULL;
+	return (node);
+}
+
+void	manage_percent(char const *str, t_list **lst, int *err, va_list va)
+{
+	char	flag;
+	int		num;
+	char	c;
+	t_list	*node;
+
+	flag = get_flag(str);
+	num = get_num(str, flag);
+	c = get_conversion(str);
+	node = store_conversion(str, lst, err, va);
+	if (!*err)
+	{
+		if (node == NULL)
+			return ;
+		node = redo_node(c, flag, num, node);
+		if (node == NULL)
+		{
+
+		}
+	}
+}
+
+t_list	store_conversion(char const str, t_list **lst, int *err, va_list va)
 {
 	t_list	*node;
 
@@ -67,7 +158,8 @@ void	choose_conversion(char const *str, t_list **lst, int *err, va_list va)
 	else
 		*err = -1;
 	if (!*err)
-		ft_lstadd_back(lst, node);
+		return (node);
 	else
 		ft_lstclear(lst, del_node);
+	return (NULL);
 }
