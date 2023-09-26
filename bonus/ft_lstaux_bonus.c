@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa_base.c                                     :+:      :+:    :+:   */
+/*   ft_lstaux_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpovill- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/23 02:39:50 by mpovill-          #+#    #+#             */
-/*   Updated: 2023/09/23 02:39:51 by mpovill-         ###   ########.fr       */
+/*   Created: 2023/09/26 11:27:46 by mpovill-          #+#    #+#             */
+/*   Updated: 2023/09/26 11:27:47 by mpovill-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 /*	Converts a string to a t_lst.
 	If str is null, it converts is to "(null)"

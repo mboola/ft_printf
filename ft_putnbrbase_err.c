@@ -12,85 +12,60 @@
 
 #include "ft_printf.h"
 
-static int	get_numsize(int n, int len)
+static int	put_nbr_long(unsigned long num, char *base, int *err, int len)
 {
-	int				size;
-	unsigned int	num;
+	int	count;
 
-	size = 1;
-	if (n < 0)
-	{
-		num = n * -1;
-		size++;
-	}
-	else if (n == 0)
-	{
-		num = n;
-		size++;
-	}
+	if (num / len < 1)
+		return (ft_putchar_err(base[num], err));
 	else
-		num = n;
-	while (num > 0)
 	{
-		num /= len;
-		size++;
+		count = put_nbr_long(num / len, base, err, len);
+		if (!*err)
+			count += ft_putchar_err(base[(num % len)], err);
+		return (count);
 	}
-	return (size);
 }
 
-/* Creates a t_lst with the unsigned int recived from param
-*/
-t_list	*putnbr_uns_err(unsigned int nbr, char *base, int *err)
+int	ft_longputnbr_base_err(unsigned long nbr, char *base, int *err, int len)
 {
-	char			*str;
-	t_list			*lst;
-	int				size;
+	return (put_nbr_long(nbr, base, err, len));
+}
+
+static int	put_nbr_int(unsigned int num, char *base, int *err, int len)
+{
+	int	count;
+
+	if (num / len < 1)
+		return (ft_putchar_err(base[num], err));
+	else
+	{
+		count = put_nbr_int(num / len, base, err, len);
+		if (!*err)
+			count += ft_putchar_err(base[(num % len)], err);
+		return (count);
+	}
+}
+
+int	ft_unsputnbr_base_err(unsigned int nbr, char *base, int *err, int len)
+{
+	return (put_nbr_int(nbr, base, err, len));
+}
+
+int	ft_putnbr_base_err(int nbr, char *base, int *err, int len)
+{
 	unsigned int	num;
+	int				count;
 
-	size = 1;
-	if (nbr == 0)
-		size++;
-	num = nbr;
-	while (num > 0)
-	{
-		num /= ft_strlen(base);
-		size++;
-	}
-	str = malloc(sizeof(char) * size);
-	if (str == NULL)
-	{
-		*err = 1;
-		return (NULL);
-	}
-	str = ft_itoa_base(nbr, base, str, size);
-	lst = str_to_lst(str, err);
-	free(str);
-	return (lst);
-}
-
-/*	Creates a t_list of chars of an int with sign (char included)
-*/
-t_list	*putnbr_sig_err(int nbr, char *base, int *err)
-{
-	char	*str;
-	t_list	*lst;
-	int		size;
-
-	size = get_numsize(nbr, ft_strlen(base));
-	str = malloc(sizeof(char) * size);
-	if (str == NULL)
-	{
-		*err = 1;
-		return (NULL);
-	}
+	count = 0;
 	if (nbr < 0)
 	{
-		*str = '-';
-		ft_itoa_base(nbr * -1, base, str + 1, size - 1);
+		count += ft_putchar_err('-', err);
+		num = nbr * -1;
 	}
 	else
-		str = ft_itoa_base(nbr, base, str, size);
-	lst = str_to_lst(str, err);
-	free(str);
-	return (lst);
+		num = nbr;
+	if (!*err)
+		return (put_nbr_int(num, base, err, len) + count);
+	return (count);
 }

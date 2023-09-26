@@ -17,62 +17,69 @@
 
 #include "ft_printf.h"
 
-/* Creates a t_lst of the direction of the pointer
-	first it creates strings and then it converts them
-	and add them to t_lst
-*/
-t_list	*ft_putptr(void *ptr, char *base, int *err)
+int	ft_putchar_err(char c, int *err)
 {
-	t_list			*lst;
-	char			*str;
-	t_list			*node;
-
-	node = str_to_lst("0x", err);
-	if (node == NULL)
-		return (NULL);
-	lst = NULL;
-	ft_lstadd_back(&lst, node);
-	str = ft_itoa_base_long((unsigned long)ptr, base, err);
-	if (str == NULL)
-	{
-		ft_lstclear(&lst, del_node);
-		return (NULL);
-	}
-	node = str_to_lst(str, err);
-	free(str);
-	if (node == NULL)
-	{
-		ft_lstclear(&lst, del_node);
-		return (NULL);
-	}
-	ft_lstadd_back(&lst, node);
-	return (lst);
+	if (write(1, &c, 1) < 0)
+		*err = -1;
+	return (1);
 }
 
-void	choose_conversion(char const *str, t_list **lst, int *err, va_list va)
+int	ft_putstr_err(char *str, int *err)
 {
-	t_list	*node;
+	int	count;
 
-	if (*str == 'c')
-		node = create_lst(va_arg(va, int), NULL, err);
-	else if (*str == 's')
-		node = str_to_lst(va_arg(va, char *), err);
-	else if (*str == 'u')
-		node = putnbr_uns_err((va_arg(va, unsigned int)), DECBASE, err);
-	else if (*str == 'p')
-		node = ft_putptr(va_arg(va, void *), HEXBASEL, err);
-	else if (*str == 'i' || *str == 'd')
-		node = putnbr_sig_err(va_arg(va, int), DECBASE, err);
-	else if (*str == 'x')
-		node = putnbr_uns_err((va_arg(va, unsigned int)), HEXBASEL, err);
-	else if (*str == 'X')
-		node = putnbr_uns_err((va_arg(va, unsigned int)), HEXBASEH, err);
-	else if (*str == '%')
-		node = create_lst('%', NULL, err);
-	else
+	if (str == NULL)
+	{
+		if (write(1, "(null)", 6) < 0)
+			*err = -1;
+		return (6);
+	}
+	count = 0;
+	while (*str != '\0' && !*err)
+	{
+		ft_putchar_err(*str, err);
+		str++;
+		count++;
+	}
+	return (count);
+}
+
+int	ft_putptr(void *ptr, int *err)
+{
+	unsigned long	addr;
+
+	if (write(1, "0x", 2) < 0)
 		*err = -1;
 	if (!*err)
-		ft_lstadd_back(lst, node);
+	{
+		addr = (unsigned long)ptr;
+		return (ft_longputnbr_base_err(addr, HEXBASELOW, err, 16) + 2);
+	}
+	return (0);
+}
+
+int	choose_conversion(char const *str, int *err, va_list va)
+{
+	int	count;
+
+	count = 0;
+	if (*str == 'c')
+		count = ft_putchar_err(va_arg(va, int), err);
+	else if (*str == 's')
+		count = ft_putstr_err(va_arg(va, char *), err);
+	else if (*str == 'u')
+		count = ft_unsputnbr_base_err(va_arg(va, int), DECBASE, err, 10);
+	else if (*str == 'p')
+		count = ft_putptr(va_arg(va, void *), err);
+	else if (*str == 'i' || *str == 'd')
+		count = ft_putnbr_base_err(va_arg(va, int), DECBASE, err, 10);
+	else if (*str == 'x')
+		count = ft_unsputnbr_base_err(va_arg(va, int), HEXBASELOW, err, 16);
+	else if (*str == 'X')
+		count = ft_unsputnbr_base_err(va_arg(va, int), HEXBASEHIG, err, 16);
+	else if (*str == '%')
+		count = ft_putchar_err('%', err);
 	else
-		ft_lstclear(lst, del_node);
+		*err = -1;
+	return (count);
 }

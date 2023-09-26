@@ -12,52 +12,33 @@
 
 #include "ft_printf.h"
 
-static t_list	*ft_create_final_lst(char const *str, va_list va, int *err)
-{
-	t_list	*lst;
-	t_list	*node;
-
-	lst = NULL;
-	while (*str != '\0' && !*err)
-	{
-		if (*str == '%')
-		{
-			str++;
-			choose_conversion(str, &lst, err, va);
-		}
-		else
-		{
-			node = create_lst(*str, &lst, err);
-			if (node == NULL)
-				return (NULL);
-			ft_lstadd_back(&lst, node);
-		}
-		str++;
-	}
-	return (lst);
-}
-
 int	ft_printf(char const *str, ...)
 {
 	int		err;
+	int		count;
 	va_list	va;
-	t_list	*lst;
 
 	if (str == NULL)
 		return (-1);
 	err = 0;
+	count = 0;
 	va_start(va, str);
-	lst = ft_create_final_lst(str, va, &err);
+	while (*str != '\0' && !err)
+	{
+		if (*str == '%')
+		{
+			str++;
+			count += choose_conversion(str, &err, va);
+		}
+		else
+		{
+			ft_putchar_err(*str, &err);
+			count++;
+		}
+		str++;
+	}
 	va_end(va);
 	if (err)
 		return (-1);
-	print_lst(lst, &err);
-	if (err)
-	{
-		ft_lstclear(&lst, del_node);
-		return (-1);
-	}
-	err = ft_lstsize(lst);
-	ft_lstclear(&lst, del_node);
-	return (err);
+	return (count);
 }
