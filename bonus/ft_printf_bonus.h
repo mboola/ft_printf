@@ -30,6 +30,7 @@
 
 int		ft_printf(char const *str, ...);
 t_list	*str_to_lst(char *str, int *err);
+void	manage_percent(char const *str, t_list **main_lst, int *err, va_list va);
 void	del_node(void *content);
 t_list	*create_lst(char c, t_list **lst, int *err);
 void	print_lst(t_list *lst, int *err);
