@@ -30,12 +30,12 @@
 
 int		ft_printf(char const *str, ...);
 t_list	*str_to_lst(char *str, int *err);
-void	manage_percent(char const *str, t_list **main_lst, int *err, va_list va);
+char    *manage_percent(char *str, t_list **main_lst, int *err, va_list va);
 void	del_node(void *content);
 t_list	*create_lst(char c, t_list **lst, int *err);
 void	print_lst(t_list *lst, int *err);
 t_list	*ft_putptr(void *ptr, char *base, int *err);
-void	choose_conversion(char const *str, t_list **lst, int *err, va_list va);
+void	choose_conversion(char *str, t_list **lst, int *err, va_list va);
 t_list	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
 t_list	*putnbr_sig_err(int nbr, char *base, int *err);
 char	*ft_itoa_base(unsigned int n, char *base, char *str, int size);

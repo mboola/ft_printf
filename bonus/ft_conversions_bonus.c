@@ -86,16 +86,20 @@ static t_list	*truncate_lst(t_list *lst, int num)
 {
 	t_list	*node;
 	int 	count;
+	t_list	*tmp;
 
 	count = 0;
 	node = lst;
+	tmp = lst;
 	while (count < num && lst->next != NULL)
 	{
+		tmp = lst;
 		lst = lst->next;
 		count++;
 	}
 	if (count == num)
 	{
+		tmp->next = NULL;
 		ft_lstclear(&lst, del_node);
 		if (num == 0)
 			node = NULL;
@@ -171,7 +175,7 @@ static t_list	*redo_node(char c, char flag, int num, t_list *node)
 	return (node);
 }
 
-t_list	*store_conversion(char const c, t_list **lst, int *err, va_list va)
+t_list	*store_conversion(char c, t_list **lst, int *err, va_list va)
 {
 	t_list	*node;
 
@@ -199,7 +203,14 @@ t_list	*store_conversion(char const c, t_list **lst, int *err, va_list va)
 	return (NULL);
 }
 
-void	manage_percent(char const *str, t_list **main_lst, int *err, va_list va)
+char	*move_pointer(char *str, char c)
+{
+	while (*str != '\0' && *str != c)
+		str++;
+	return (str);
+}
+
+char	*manage_percent(char *str, t_list **main_lst, int *err, va_list va)
 {
 	char	flag;
 	int		num;
@@ -213,14 +224,15 @@ void	manage_percent(char const *str, t_list **main_lst, int *err, va_list va)
 	if (!*err && flag != -1)
 	{
 		if (node == NULL)
-			return ;
+			return (move_pointer(str, c));
 		node = redo_node(c, flag, num, node);
 		if (node == NULL && flag != '.' && c == 's' && num == 0)
 		{
 			*err = 1;
 			ft_lstclear(main_lst, del_node);
-			return ;
+			return (move_pointer(str, c));
 		}
 	}
 	ft_lstadd_back(main_lst, node);
+	return (move_pointer(str, c));
 }

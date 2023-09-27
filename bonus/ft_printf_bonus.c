@@ -12,7 +12,7 @@
 
 #include "ft_printf_bonus.h"
 
-static t_list	*ft_create_final_lst(char const *str, va_list va, int *err)
+static t_list	*ft_create_final_lst(char *str, va_list va, int *err)
 {
 	t_list	*lst;
 	t_list	*node;
@@ -23,7 +23,7 @@ static t_list	*ft_create_final_lst(char const *str, va_list va, int *err)
 		if (*str == '%')
 		{
 			str++;
-			manage_percent(str, &lst, err, va);
+			str = manage_percent(str, &lst, err, va);
 		}
 		else
 		{
@@ -37,16 +37,18 @@ static t_list	*ft_create_final_lst(char const *str, va_list va, int *err)
 	return (lst);
 }
 
-int	ft_printf(char const *str, ...)
+int	ft_printf(char const *s, ...)
 {
 	int		err;
 	va_list	va;
 	t_list	*lst;
+	char	*str;
 
+	str = (char *)s;
 	if (str == NULL)
 		return (-1);
 	err = 0;
-	va_start(va, str);
+	va_start(va, s);
 	lst = ft_create_final_lst(str, va, &err);
 	va_end(va);
 	if (err)
