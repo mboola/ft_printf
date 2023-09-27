@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
-#include <stdio.h>
 
 /* Creates a t_lst of the direction of the pointer
 	first it creates strings and then it converts them
@@ -71,9 +70,9 @@ static char	get_conversion(const char *str)
 {
 	while (*str != '\0' && !is_conversion(*str))
 		str++;
-	if (is_conversion(*str))
-		return ((char)*str);
-	return (-1);
+	if (*str == '\0')
+		return (-1);
+	return (*str);
 }
 
 static int	get_num(const char *str, char flag)
@@ -96,7 +95,11 @@ static t_list	*truncate_lst(t_list *lst, int num)
 		count++;
 	}
 	if (count == num)
+	{
 		ft_lstclear(&lst, del_node);
+		if (num == 0)
+			node = NULL;
+	}
 	return (node);
 }
 
@@ -168,32 +171,31 @@ static t_list	*redo_node(char c, char flag, int num, t_list *node)
 	return (node);
 }
 
-t_list	*store_conversion(char const str, t_list **lst, int *err, va_list va)
+t_list	*store_conversion(char const c, t_list **lst, int *err, va_list va)
 {
 	t_list	*node;
 
-	if (str == 'c')
+	if (c == 'c')
 		node = create_lst(va_arg(va, int), NULL, err);
-	else if (str == 's')
+	else if (c == 's')
 		node = str_to_lst(va_arg(va, char *), err);
-	else if (str == 'u')
+	else if (c == 'u')
 		node = putnbr_uns_err((va_arg(va, unsigned int)), DECBASE, err);
-	else if (str == 'p')
+	else if (c == 'p')
 		node = ft_putptr(va_arg(va, void *), HEXBASEL, err);
-	else if (str == 'i' || str == 'd')
+	else if (c == 'i' || c == 'd')
 		node = putnbr_sig_err(va_arg(va, int), DECBASE, err);
-	else if (str == 'x')
+	else if (c == 'x')
 		node = putnbr_uns_err((va_arg(va, unsigned int)), HEXBASEL, err);
-	else if (str == 'X')
+	else if (c == 'X')
 		node = putnbr_uns_err((va_arg(va, unsigned int)), HEXBASEH, err);
-	else if (str == '%')
+	else if (c == '%')
 		node = create_lst('%', NULL, err);
 	else
-		*err = -1;
+		*err = 1;
 	if (!*err)
 		return (node);
-	else
-		ft_lstclear(lst, del_node);
+	ft_lstclear(lst, del_node);
 	return (NULL);
 }
 
@@ -207,13 +209,13 @@ void	manage_percent(char const *str, t_list **main_lst, int *err, va_list va)
 	flag = get_flag(str);
 	num = get_num(str, flag);
 	c = get_conversion(str);
-	node = store_conversion(*str, main_lst, err, va);
+	node = store_conversion(c, main_lst, err, va);
 	if (!*err && flag != -1)
 	{
 		if (node == NULL)
 			return ;
 		node = redo_node(c, flag, num, node);
-		if (node == NULL)
+		if (node == NULL && flag != '.' && c == 's' && num == 0)
 		{
 			*err = 1;
 			ft_lstclear(main_lst, del_node);
