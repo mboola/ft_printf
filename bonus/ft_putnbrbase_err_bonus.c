@@ -12,6 +12,18 @@
 
 #include "ft_printf_bonus.h"
 
+static int	rec_putnbr(char *str, unsigned int number, int pos, char *base)
+{
+	if (number / ft_strlen(base) < 1)
+		*str = base[number];
+	else
+	{
+		pos = rec_putnbr(str, number / ft_strlen(base), pos, base);
+		*(str + pos) = base[number % ft_strlen(base)];
+	}
+	return (pos + 1);
+}
+
 static int	get_numsize(int n, int len)
 {
 	int				size;
@@ -40,10 +52,9 @@ static int	get_numsize(int n, int len)
 
 /* Creates a t_lst with the unsigned int recived from param
 */
-t_list	*putnbr_uns_err(unsigned int nbr, char *base, int *err)
+char	*putnbr_uns_err(unsigned int nbr, char *base, int *err)
 {
 	char			*str;
-	t_list			*lst;
 	int				size;
 	unsigned int	num;
 
@@ -62,18 +73,16 @@ t_list	*putnbr_uns_err(unsigned int nbr, char *base, int *err)
 		*err = 1;
 		return (NULL);
 	}
-	str = ft_itoa_base(nbr, base, str, size);
-	lst = str_to_lst(str, err);
-	free(str);
+	rec_putnbr(str, nbr, 0, base);
+	*(str + size - 1) = '\0';
 	return (lst);
 }
 
 /*	Creates a t_list of chars of an int with sign (char included)
 */
-t_list	*putnbr_sig_err(int nbr, char *base, int *err)
+char	*putnbr_sig_err(int nbr, char *base, int *err)
 {
 	char	*str;
-	t_list	*lst;
 	int		size;
 
 	size = get_numsize(nbr, ft_strlen(base));
@@ -86,11 +95,10 @@ t_list	*putnbr_sig_err(int nbr, char *base, int *err)
 	if (nbr < 0)
 	{
 		*str = '-';
-		ft_itoa_base(nbr * -1, base, str + 1, size - 1);
+		rec_putnbr(str + 1, nbr * -1, 0, base);
 	}
 	else
-		str = ft_itoa_base(nbr, base, str, size);
-	lst = str_to_lst(str, err);
-	free(str);
-	return (lst);
+		rec_putnbr(str, nbr, 0, base);
+	*(str + size - 1) = '\0';
+	return (str);
 }

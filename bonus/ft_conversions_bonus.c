@@ -12,227 +12,114 @@
 
 #include "ft_printf_bonus.h"
 
-/* Creates a t_lst of the direction of the pointer
-	first it creates strings and then it converts them
-	and add them to t_lst
-*/
-t_list	*ft_putptr(void *ptr, char *base, int *err)
+/*
+static char	*get_final_output(t_percent *options, int *err, va_list va)
 {
-	t_list			*lst;
-	char			*str;
-	t_list			*node;
-
-	node = str_to_lst("0x", err);
-	if (node == NULL)
-		return (NULL);
-	lst = NULL;
-	ft_lstadd_back(&lst, node);
-	str = ft_itoa_base_long((unsigned long)ptr, base, err);
-	if (str == NULL)
+	if (!check_options_correct(options))
 	{
-		ft_lstclear(&lst, del_node);
-		return (NULL);
-	}
-	node = str_to_lst(str, err);
-	free(str);
-	if (node == NULL)
-	{
-		ft_lstclear(&lst, del_node);
-		return (NULL);
-	}
-	ft_lstadd_back(&lst, node);
-	return (lst);
-}
-
-static int is_conversion(char const c)
-{
-	if (c == 'c' || c == 's' || c == 'u' || c == 'p' || c == 'i' || c == 'd' 
-		|| c == 'x' || c == 'X' || c == '%')
-		return (1);
-	return (0);
-}
-
-static int	is_flag(char const c)
-{
-	if (c == '.' || c == '#' || c == ' ' || c == '+' || c == '-' || c == '0')
-		return (1);
-	return (0);
-}
-
-static char get_flag(const char *str)
-{
-	if (!is_flag(*str) && !ft_isdigit(*str))
-		return (-1);
-	return (*str);
-}
-
-static char	get_conversion(const char *str)
-{
-	while (*str != '\0' && !is_conversion(*str))
-		str++;
-	if (*str == '\0')
-		return (-1);
-	return (*str);
-}
-
-static int	get_num(const char *str, char flag)
-{
-	if (is_flag(flag))
-		str++;
-	return (ft_atoi(str));
-}
-
-static t_list	*truncate_lst(t_list *lst, int num)
-{
-	t_list	*node;
-	int 	count;
-	t_list	*tmp;
-
-	count = 0;
-	node = lst;
-	tmp = lst;
-	while (count < num && lst->next != NULL)
-	{
-		tmp = lst;
-		lst = lst->next;
-		count++;
-	}
-	if (count == num)
-	{
-		tmp->next = NULL;
-		ft_lstclear(&lst, del_node);
-		if (num == 0)
-			node = NULL;
-	}
-	return (node);
-}
-
-static t_list	*create_char_lst(int num, char c)
-{
-	int 	count;
-	int		err;
-	t_list	*lst;
-	t_list	*node;
-
-	lst = NULL;
-	err = 0;
-	count = 0;
-	while (count < num)
-	{
-		node = create_lst(c, &lst, &err);
-		if (node == NULL)
-			return (NULL);
-		count++;
-		ft_lstadd_back(&lst, node);
-	}
-	return (lst);
-}
-
-static t_list	*add_info_to_node(t_list *node, int num, int left, char c)
-{
-	int		len;
-	t_list	*info;
-
-	len = ft_lstsize(node);
-	if (num > len)
-	{
-		info = create_char_lst(num - len, c);
-		if (info == NULL)
-		{
-			ft_lstclear(&node, del_node);
-			return (NULL);
-		}
-		if (left)
-		{
-			ft_lstadd_back(&info, node);
-			return (info);
-		}
-		ft_lstadd_back(&node, info);
-		return (node);
-	}
-	return (node);
-}
-
-static t_list	*redo_node(char c, char flag, int num, t_list *node)
-{
-	if (flag == '.' && c == 's')
-		node = truncate_lst(node, num);
-	else if ((flag == '.' || flag == '0') && (c == 'u' || c == 'i' || c == 'd'
-		|| c == 'x' || c == 'X'))
-		node = add_info_to_node(node, num, 1, '0');
-	else if (flag == '-' && c != '%')
-		node = add_info_to_node(node, num, 0, ' ');
-	else if (ft_isdigit(flag) && c != '%')
-		node = add_info_to_node(node, num, 1, ' ');
-	//else if (flag == '+' && (c == 'i' || c == 'd'))
-		//cosas
-	else if (flag == ' ' && (c == 'i' || c == 'd'))
-		node = add_info_to_node(node, num, 1, ' ');
-	//else if ((flag == '#') && (c == 'x' || c == 'X'))
-		//cosas
-	else
-		node = NULL;
-	return (node);
-}
-
-t_list	*store_conversion(char c, t_list **lst, int *err, va_list va)
-{
-	t_list	*node;
-
-	if (c == 'c')
-		node = create_lst(va_arg(va, int), NULL, err);
-	else if (c == 's')
-		node = str_to_lst(va_arg(va, char *), err);
-	else if (c == 'u')
-		node = putnbr_uns_err((va_arg(va, unsigned int)), DECBASE, err);
-	else if (c == 'p')
-		node = ft_putptr(va_arg(va, void *), HEXBASEL, err);
-	else if (c == 'i' || c == 'd')
-		node = putnbr_sig_err(va_arg(va, int), DECBASE, err);
-	else if (c == 'x')
-		node = putnbr_uns_err((va_arg(va, unsigned int)), HEXBASEL, err);
-	else if (c == 'X')
-		node = putnbr_uns_err((va_arg(va, unsigned int)), HEXBASEH, err);
-	else if (c == '%')
-		node = create_lst('%', NULL, err);
-	else
 		*err = 1;
-	if (!*err)
-		return (node);
-	ft_lstclear(lst, del_node);
-	return (NULL);
+		return (NULL);
+	}
+	if (options->precision)
+		if (check_num_correct(options, '.', va, options->spaces))
+		{
+			*err = 1;
+			return (NULL);
+		}
+	else
+		options->spaces = 0;
+	if (check_num_correct(options, options->conversion, va, options->zeros))
+	{
+		*err = 1;
+		return (NULL);
+	}
+	//info = convert_value(opt, conversion, err, va);
+	//if (info == NULL)
+	//	return (NULL);
+	//if (conversion == flag)
+	//	return (info);
+	//if flag is a num, add spaces and ends
+	//if flag is zero, adds zeros
+	info = add_zeros(opt, info, prec, err);
+	if (flag == '#')
+		info = add_0x_front(info, err);
+	else if (flag == ' ')
+		//adds one space
+	else if (flag = '-')
+		//spaces go from behind
+	else if (flag == '+')
+		//there is always sign
+	if (info == NULL)
+		return (NULL);
+	if (flag = '-')
+		//spaces go from behind
+	else
+		//space go front
+	return (info);
+}*/
+
+static char	*get_final_output(t_percent *options, int *err, va_list va)
+{
+	char	output;
+
+	if (!check_options_correct(options))
+	{
+		*err = 1;
+		return (NULL);
+	}
+	output = create_output(options);
+	if (output == NULL)
+		*err = 1;
+	return (output);
 }
 
-char	*move_pointer(char *str, char c)
+static char	*get_substr_conversion(char *str, int *err)
 {
-	while (*str != '\0' && *str != c)
-		str++;
+	int		count;
+	char	*substr;
+
+	count = 0;
+	while (*(str + count) != '\0' && !is_conversion(*(str + count)))
+		count++;
+	if (*(str + count) == '\0')
+	{
+		*err = 1;
+		return (NULL);
+	}
+	substr = ft_substr(str, 0, count + 1);
+	if (substr == NULL)
+		*err = 1;
+	return (substr);
+}
+
+static char	*del_t_percent(t_percent *options, char *str)
+{
+	if (options->info != NULL)
+		free(options->info);
+	free(options);
 	return (str);
 }
 
-char	*manage_percent(char *str, t_list **main_lst, int *err, va_list va)
+char	*manage_percent(char *str, char **msg, int *err, va_list va)
 {
-	char	flag;
-	int		num;
-	char	c;
-	t_list	*node;
+	t_percent	*options;
+	char		*output;
+	int			len;
 
-	flag = get_flag(str);
-	num = get_num(str, flag);
-	c = get_conversion(str);
-	node = store_conversion(c, main_lst, err, va);
-	if (!*err && flag != -1)
+	options = malloc(sizeof(t_percent));
+	if (options == NULL)
 	{
-		if (node == NULL)
-			return (move_pointer(str, c));
-		node = redo_node(c, flag, num, node);
-		if (node == NULL && flag != '.' && c == 's' && num == 0)
-		{
-			*err = 1;
-			ft_lstclear(main_lst, del_node);
-			return (move_pointer(str, c));
-		}
+		*err = 1;
+		return (str);
 	}
-	ft_lstadd_back(main_lst, node);
-	return (move_pointer(str, c));
+	options->info = get_substr_conversion(str, err);
+	if (options->info == NULL)
+		return (del_t_percent(options, str));
+	output = get_final_output(options, err, va);
+	if (output == NULL)
+		return (del_t_percent(options, str));
+	len = ft_strlen(options->info);
+	del_t_percent(options, str);
+	*msg = join_and_free(*msg, output);
+	return (str + len);
 }

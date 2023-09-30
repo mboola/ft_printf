@@ -12,54 +12,83 @@
 
 #include "ft_printf_bonus.h"
 
-static t_list	*ft_create_final_lst(char *str, va_list va, int *err)
+char	*join_and_free(char *s1, char *s2, int *err)
 {
-	t_list	*lst;
-	t_list	*node;
+	char	*tmp;
 
-	lst = NULL;
+	tmp = ft_strjoin(s1, s2);
+	if (tmp == NULL)
+		*err = 1;
+	free(s1);
+	free(s2);
+	return (tmp);
+}
+
+static char	*create_msg(char *str, va_list va, int *err)
+{
+	char	*msg;
+	char	*c;
+
+	msg = malloc(sizeof(char));
+	if (msg == NULL)
+	{
+		*err = 1;
+		return (NULL);
+	}
+	*msg = '\0';
 	while (*str != '\0' && !*err)
 	{
 		if (*str == '%')
 		{
 			str++;
-			str = manage_percent(str, &lst, err, va);
+			str = manage_percent(str, &msg, err, va);
 		}
 		else
 		{
-			node = create_lst(*str, &lst, err);
-			if (node == NULL)
+			c = ft_substr(str, 0, 1);
+			if (c == NULL)
+			{
+				*err = 1;
+				free(msg);
 				return (NULL);
-			ft_lstadd_back(&lst, node);
+			}
+			msg = join_and_free(msg, c, err);
+			if (msg == NULL)
+				return (NULL);
+			str++;
 		}
-		str++;
 	}
-	return (lst);
+	if (*err)
+	{
+		free(msg);
+		msg = NULL;
+	}
+	return (msg);
 }
 
 int	ft_printf(char const *s, ...)
 {
 	int		err;
 	va_list	va;
-	t_list	*lst;
+	char	*msg;
 	char	*str;
 
 	str = (char *)s;
-	if (str == NULL)
+	if (s == NULL)
 		return (-1);
 	err = 0;
 	va_start(va, s);
-	lst = ft_create_final_lst(str, va, &err);
+	msg = create_msg(str, va, &err);
 	va_end(va);
 	if (err)
 		return (-1);
-	print_lst(lst, &err);
+	ft_putstr_err(msg, &err);
 	if (err)
 	{
-		ft_lstclear(&lst, del_node);
+		free(msg);
 		return (-1);
 	}
-	err = ft_lstsize(lst);
-	ft_lstclear(&lst, del_node);
+	err = ft_strlen(msg);
+	free(msg);
 	return (err);
 }

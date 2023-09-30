@@ -28,7 +28,26 @@
 # include <stdlib.h>
 # include "../libft/libft.h"
 
+typedef struct t_percent
+{
+    char    *info;
+	char    flag;
+    char    conversion;
+    int     precision;
+    int     spaces;
+    int     zeros;
+}	t_percent;
+
 int		ft_printf(char const *str, ...);
+char	*join_and_free(char *s1, char *s2, int *err);
+char	*manage_percent(char *str, char **msg, int *err, va_list va);
+int     check_options_correct(t_percent *options);
+char    get_flag(char *str, char conv);
+int     check_nums(t_percent *options, va_list va);
+int     is_flag(char c);
+char	*create_output(t_percent *options);
+
+
 t_list	*str_to_lst(char *str, int *err);
 char    *manage_percent(char *str, t_list **main_lst, int *err, va_list va);
 void	del_node(void *content);

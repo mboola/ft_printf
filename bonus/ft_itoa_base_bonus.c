@@ -12,31 +12,19 @@
 
 #include "ft_printf_bonus.h"
 
-static int	rec_putnbr_b(char *str, unsigned int number, int pos, char *base)
+static int	rec_putnbr(char *str, unsigned long number, int pos, char *base)
 {
 	if (number / ft_strlen(base) < 1)
 		*str = base[number];
 	else
 	{
-		pos = rec_putnbr_b(str, number / ft_strlen(base), pos, base);
+		pos = rec_putnbr(str, number / ft_strlen(base), pos, base);
 		*(str + pos) = base[number % ft_strlen(base)];
 	}
 	return (pos + 1);
 }
 
-static int	rec_putnbr_b_l(char *str, unsigned long number, int pos, char *base)
-{
-	if (number / ft_strlen(base) < 1)
-		*str = base[number];
-	else
-	{
-		pos = rec_putnbr_b_l(str, number / ft_strlen(base), pos, base);
-		*(str + pos) = base[number % ft_strlen(base)];
-	}
-	return (pos + 1);
-}
-
-char	*ft_itoa_base_long(unsigned long n, char *base, int *err)
+static char	*ft_itoa_base_addr(unsigned long n, char *base, int *err)
 {
 	int				size;
 	unsigned long	num;
@@ -57,14 +45,27 @@ char	*ft_itoa_base_long(unsigned long n, char *base, int *err)
 		*err = 1;
 		return (NULL);
 	}
-	rec_putnbr_b_l(str, n, 0, base);
+	rec_putnbr(str, n, 0, base);
 	*(str + size - 1) = '\0';
 	return (str);
 }
 
-char	*ft_itoa_base(unsigned int n, char *base, char *str, int size)
+char	*add_0x_front(char *str, int *err)
 {
-	rec_putnbr_b(str, n, 0, base);
-	*(str + size - 1) = '\0';
-	return (str);
+	char	*pre;
+
+	pre = copy_str("0x", err);
+	if (str == NULL)
+		return (NULL);
+	return (join_and_free(pre, str, err));
+}
+
+char	*ft_putptr(void *ptr, char *base, int *err)
+{
+	char	*str;
+
+	str = ft_itoa_base_addr((unsigned long)ptr, base, err);
+	if (str == NULL)
+		return (NULL);
+	return (add_0x_front(str, err));
 }
