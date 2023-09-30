@@ -60,14 +60,14 @@ static char	*get_final_output(t_percent *options, int *err, va_list va)
 
 static char	*get_final_output(t_percent *options, int *err, va_list va)
 {
-	char	output;
+	char	*output;
 
-	if (!check_options_correct(options))
+	if (!check_options_correct(options, va))
 	{
 		*err = 1;
 		return (NULL);
 	}
-	output = create_output(options);
+	output = create_output(options, err, va);
 	if (output == NULL)
 		*err = 1;
 	return (output);
@@ -120,6 +120,6 @@ char	*manage_percent(char *str, char **msg, int *err, va_list va)
 		return (del_t_percent(options, str));
 	len = ft_strlen(options->info);
 	del_t_percent(options, str);
-	*msg = join_and_free(*msg, output);
+	*msg = join_and_free(*msg, output, err);
 	return (str + len);
 }

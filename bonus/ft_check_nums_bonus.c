@@ -19,7 +19,7 @@ int	is_flag(char c)
 	return (0);
 }
 
-char get_flag(char *str, char conv)
+char	get_flag(char *str, char conv)
 {
 	char	flag;
 

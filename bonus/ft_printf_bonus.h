@@ -41,23 +41,16 @@ typedef struct t_percent
 int		ft_printf(char const *str, ...);
 char	*join_and_free(char *s1, char *s2, int *err);
 char	*manage_percent(char *str, char **msg, int *err, va_list va);
-int     check_options_correct(t_percent *options);
-char    get_flag(char *str, char conv);
-int     check_nums(t_percent *options, va_list va);
-int     is_flag(char c);
-char	*create_output(t_percent *options);
-
-
-t_list	*str_to_lst(char *str, int *err);
-char    *manage_percent(char *str, t_list **main_lst, int *err, va_list va);
-void	del_node(void *content);
-t_list	*create_lst(char c, t_list **lst, int *err);
-void	print_lst(t_list *lst, int *err);
-t_list	*ft_putptr(void *ptr, char *base, int *err);
-void	choose_conversion(char *str, t_list **lst, int *err, va_list va);
-t_list	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
-t_list	*putnbr_sig_err(int nbr, char *base, int *err);
-char	*ft_itoa_base(unsigned int n, char *base, char *str, int size);
-char	*ft_itoa_base_long(unsigned long n, char *base, int *err);
+int		check_options_correct(t_percent *options, va_list va);
+int		check_nums(t_percent *options, va_list va);
+int		is_flag(char c);
+int		is_conversion(char c);
+char	*create_output(t_percent *options, int *err, va_list va);
+void	ft_putstr_err(char	*str, int *err);
+char	*add_0x_front(char *str, int *err);
+char	*ft_putptr(void *ptr, char *base, int *err);
+char	*putnbr_sig_err(int nbr, char *base, int *err);
+char	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
+char	*copy_str(char *str, int *err);
 
 #endif

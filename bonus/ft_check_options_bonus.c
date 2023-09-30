@@ -12,9 +12,9 @@
 
 #include "ft_printf_bonus.h"
 
-static int is_conversion(char c)
+int	is_conversion(char c)
 {
-	if (c == 'c' || c == 's' || c == 'u' || c == 'p' || c == 'i' || c == 'd' 
+	if (c == 'c' || c == 's' || c == 'u' || c == 'p' || c == 'i' || c == 'd'
 		|| c == 'x' || c == 'X' || c == '%')
 		return (1);
 	return (0);
@@ -56,7 +56,7 @@ static int	get_precision(char *str, char conv)
 	return (count);
 }
 
-static char get_flag(char *str, char conv)
+static char	get_flag(char *str, char conv)
 {
 	char	flag;
 
@@ -74,7 +74,7 @@ static char get_flag(char *str, char conv)
 
 /*	Flag might not exist and precision might also not exist
 */
-int	check_options_correct(t_percent *options)
+int	check_options_correct(t_percent *options, va_list va)
 {
 	if (options->info == NULL)
 		return (0);
@@ -87,5 +87,5 @@ int	check_options_correct(t_percent *options)
 	options->flag = get_flag(options->info, options->conversion);
 	if (!options->flag)
 		return (0);
-	return (check_nums(options));
+	return (check_nums(options, va));
 }

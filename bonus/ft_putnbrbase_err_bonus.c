@@ -75,11 +75,9 @@ char	*putnbr_uns_err(unsigned int nbr, char *base, int *err)
 	}
 	rec_putnbr(str, nbr, 0, base);
 	*(str + size - 1) = '\0';
-	return (lst);
+	return (str);
 }
 
-/*	Creates a t_list of chars of an int with sign (char included)
-*/
 char	*putnbr_sig_err(int nbr, char *base, int *err)
 {
 	char	*str;

@@ -27,7 +27,7 @@ static char	*copy_char(int	c, int *err)
 	return (str);
 }
 
-static char	*copy_str(char *str, int *err)
+char	*copy_str(char *str, int *err)
 {
 	size_t	count;
 	char	*info;
@@ -78,7 +78,7 @@ static char	*convert_value(char conv, int *err, va_list va)
 char	*create_output(t_percent *options, int *err, va_list va)
 {
 	char	*output;
-	//pillo resultat, foto zeros i foto espai
+
 	output = convert_value(options->conversion, err, va);
 	return (output);
 }
