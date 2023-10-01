@@ -56,11 +56,11 @@ static int	get_precision(char *str, char conv)
 	return (count);
 }
 
-static char	get_flag(char *str, char conv)
+static char get_flag(char *str, char conv)
 {
 	char	flag;
 
-	if (!is_flag(*str) && !ft_isdigit(*str) && *str != conv)
+	if (!is_flag(*str) && !ft_isdigit(*str) && *str != conv && *str != '*')
 		return (0);
 	flag = *str;
 	if (flag == '#' && !(conv == 'x' || conv == 'X'))
@@ -69,7 +69,9 @@ static char	get_flag(char *str, char conv)
 		return (0);
 	if (flag == '0' && (conv == 's' || conv == 'c' || conv == 'p'))
 		return (0);
-	return (*str);
+	if (is_flag(flag))
+		return (*str);
+	return (-1);
 }
 
 /*	Flag might not exist and precision might also not exist

@@ -42,21 +42,19 @@ static int	check_num_correct(char *str, char c, int *ptr, va_list va)
 
 	i = 0;
 	if (*str == '*' && *(str + 1) != c)
-		return (0);
+		return (-1);
 	else if (*str == '*')
 	{
 		*ptr = va_arg(va, int);
 		return (1);
 	}
-	else if (*str == '0')
-		return (0);
 	while (ft_isdigit(*(str + i)))
 		i++;
 	if (*(str + i) != c)
-		return (0);
+		return (-1);
 	tmp = ft_substr(str, 0, i);
 	if (tmp == NULL)
-		return (0);
+		return (-1);
 	*ptr = ft_atoi(tmp);
 	free(tmp);
 	return (i);
@@ -68,18 +66,20 @@ int	check_nums(t_percent *options, va_list va)
 	int		i;
 
 	str = options->info;
-	if (options->flag != -1)
+	if (options->precision && options->flag == '0' && *(str + 1) == '0')
+		return (0);
+	if (options->flag != -1 && options->flag != '.')
 		str++;
 	if (options->precision)
 	{
 		i = check_num_correct(str, '.', &(options->spaces), va);
-		if (!i)
+		if (i == -1)
 			return (0);
 		str += i + 1;
 	}
 	else
 		options->spaces = 0;
-	if (!check_num_correct(str, options->conversion, &(options->zeros), va))
+	if (check_num_correct(str, options->conversion, &(options->zeros), va) == -1)
 		return (0);
 	return (1);
 }
