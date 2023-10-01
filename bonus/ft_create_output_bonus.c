@@ -12,7 +12,7 @@
 
 #include "ft_printf_bonus.h"
 
-static char	*copy_char(int	c, int *err)
+char	*copy_char(int	c, int *err)
 {
 	char	*str;
 
@@ -75,10 +75,44 @@ static char	*convert_value(char conv, int *err, va_list va)
 	return (NULL);
 }
 
-char	*create_output(t_percent *options, int *err, va_list va)
+static char	*resize_str(char *str, size_t len, int *err)
 {
 	char	*output;
 
+	output = ft_substr(str, 0, len);
+	if (output == NULL)
+		*err = 1;
+	return (output);
+}
+
+char	*create_output(t_percent *options, int *err, va_list va)
+{
+	char	*output;
+	char	*tmp;
+	size_t	len;
+
 	output = convert_value(options->conversion, err, va);
+	if (*err)
+		return (NULL);
+	len = ft_strlen(output);
+	if (options->zeros != 0)
+	{
+		if (options->zeros < len && options->precision && options->conversion == 's')
+			tmp = resize_str(output, options->zeros, err);
+		else
+			tmp = add_zeros(output, options, err);
+		free(output);
+		if (*err)
+			return (NULL);
+		output = tmp;
+	}
+	if (options->spaces != 0)
+	{
+		tmp = add_spaces(output, options, err);
+		free(output);
+		if (*err)
+			return (NULL);
+		output = tmp;
+	}
 	return (output);
 }

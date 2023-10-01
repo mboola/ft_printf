@@ -35,7 +35,7 @@ char	get_flag(char *str, char conv)
 	return (*str);
 }
 
-static int	check_num_correct(char *str, char c, int *ptr, va_list va)
+static int	check_num_correct(char *str, char c, size_t *ptr, va_list va)
 {
 	int		i;
 	char	*tmp;

@@ -30,12 +30,12 @@
 
 typedef struct t_percent
 {
-    char    *info;
-	char    flag;
-    char    conversion;
-    int     precision;
-    int     spaces;
-    int     zeros;
+	char	*info;
+	char	flag;
+	char	conversion;
+	int		precision;
+	size_t	spaces;
+	size_t	zeros;
 }	t_percent;
 
 int		ft_printf(char const *str, ...);
@@ -52,5 +52,8 @@ char	*ft_putptr(void *ptr, char *base, int *err);
 char	*putnbr_sig_err(int nbr, char *base, int *err);
 char	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
 char	*copy_str(char *str, int *err);
+char	*copy_char(int	c, int *err);
+char	*add_zeros(char *output, t_percent *options, int *err);
+char	*add_spaces(char *output, t_percent *options, int *err);
 
 #endif
