@@ -40,7 +40,7 @@ static char	*create_str_of_char(size_t outp_len, size_t total_len, char c, int *
 	return (str);
 }
 
-char	*add_zeros(char *output, t_percent *options, int *err)
+char	*add_zeros(char *output, size_t zeros_len, char flag, int *err)
 {
 	char	*zeros;
 	char	*tmp;
@@ -53,7 +53,9 @@ char	*add_zeros(char *output, t_percent *options, int *err)
 	tmp = copy_str(output + neg, err);
 	if (*err)
 		return (NULL);
-	zeros = create_str_of_char(ft_strlen(tmp), options->zeros, '0', err);
+	if (zeros_len > 0)
+		zeros_len = zeros_len + (flag == '0') * (neg == 1) * -1;
+	zeros = create_str_of_char(ft_strlen(tmp), zeros_len, '0', err);
 	if (*err)
 	{
 		free(tmp);
@@ -79,14 +81,14 @@ char	*add_zeros(char *output, t_percent *options, int *err)
 	return (join_and_free(zeros, tmp, err));
 }
 
-char	*add_spaces(char *output, t_percent *options, int *err)
+char	*add_spaces(char *output, size_t spaces_len, char flag, int *err)
 {
 	char	*spaces;
 
-	spaces = create_str_of_char(ft_strlen(output), options->spaces, ' ', err);
+	spaces = create_str_of_char(ft_strlen(output), spaces_len, ' ', err);
 	if (*err)
 		return (NULL);
-	if (options->flag == '-')
+	if (flag == '-')
 		output = join_and_free(output, spaces, err);
 	else
 		output = join_and_free(spaces, output, err);

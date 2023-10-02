@@ -43,7 +43,7 @@ char	*join_and_free(char *s1, char *s2, int *err);
 char	*manage_percent(char *str, char **msg, int *err, va_list va);
 int		check_options_correct(t_percent *options, va_list va);
 int		check_nums(t_percent *options, va_list va);
-char	get_flag(char *str, char conv);
+char	get_flag(char *str, char conv, int prec);
 int		is_conversion(char c);
 char	*create_output(t_percent *options, int *err, va_list va);
 void	ft_putstr_err(char	*str, int *err);
@@ -53,7 +53,7 @@ char	*putnbr_sig_err(int nbr, char *base, int *err);
 char	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
 char	*copy_str(char *str, int *err);
 char	*copy_char(int	c, int *err);
-char	*add_zeros(char *output, t_percent *options, int *err);
-char	*add_spaces(char *output, t_percent *options, int *err);
+char	*add_zeros(char *output, size_t zeros_len, char flag, int *err);
+char	*add_spaces(char *output, size_t spaces_len, char flag, int *err);
 
 #endif

@@ -93,29 +93,32 @@ char	*create_output(t_percent *options, int *err, va_list va)
 	output = convert_value(options->conversion, err, va);
 	if (*err)
 		return (NULL);
-	if (options->zeros != 0 || (options->zeros == 0 && options->precision))
+	if (options->flag == '0')
 	{
-		if (options->precision && options->conversion == 's')
-			tmp = resize_str(output, options->zeros, err);
-		else
-			tmp = add_zeros(output, options, err);
+		tmp = add_zeros(output, options->spaces, options->flag, err);
 		free(output);
-		if (*err)
-			return (NULL);
 		output = tmp;
 	}
-	if (options->spaces != 0)
+	else
 	{
-		if (options->flag == '0')
+		if (options->zeros != 0 || (options->zeros == 0 && options->precision))
 		{
-			tmp = add_zeros(output, options, err);
+			if (options->precision && options->conversion == 's')
+				tmp = resize_str(output, options->zeros, err);
+			else
+				tmp = add_zeros(output, options->zeros, options->flag, err);
 			free(output);
+			if (*err)
+				return (NULL);
+			output = tmp;
 		}
-		else
-			tmp = add_spaces(output, options, err);
-		if (*err)
-			return (NULL);
-		output = tmp;
+		if (options->spaces != 0)
+		{
+			tmp = add_spaces(output, options->spaces, options->flag, err);
+			if (*err)
+				return (NULL);
+			output = tmp;
+		}
 	}
 	return (output);
 }

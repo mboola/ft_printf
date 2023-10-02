@@ -68,7 +68,7 @@ int	check_options_correct(t_percent *options, va_list va)
 	options->precision = get_precision(options->info, options->conversion);
 	if (options->precision == -1)
 		return (0);
-	options->flag = get_flag(options->info, options->conversion);
+	options->flag = get_flag(options->info, options->conversion, options->precision);
 	if (!options->flag)
 		return (0);
 	return (check_nums(options, va));
