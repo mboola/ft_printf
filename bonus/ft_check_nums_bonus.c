@@ -78,10 +78,14 @@ int	check_nums(t_percent *options, va_list va)
 		if (i == -1)
 			return (0);
 		str += i + 1;
+		if (check_num_correct(str, options->conversion, &(options->zeros), va) == -1)
+			return (0);
 	}
 	else
-		options->spaces = 0;
-	if (check_num_correct(str, options->conversion, &(options->zeros), va) == -1)
-		return (0);
+	{
+		options->zeros = 0;
+		if (check_num_correct(str, options->conversion, &(options->spaces), va) == -1)
+			return (0);
+	}
 	return (1);
 }

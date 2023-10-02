@@ -106,7 +106,13 @@ char	*create_output(t_percent *options, int *err, va_list va)
 	}
 	if (options->spaces != 0)
 	{
-		tmp = add_spaces(output, options, err);
+		if (options->flag == '0')
+		{
+			tmp = add_zeros(output, options, err);
+			free(output);
+		}
+		else
+			tmp = add_spaces(output, options, err);
 		if (*err)
 			return (NULL);
 		output = tmp;
