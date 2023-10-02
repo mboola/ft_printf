@@ -43,7 +43,7 @@ char	*join_and_free(char *s1, char *s2, int *err);
 char	*manage_percent(char *str, char **msg, int *err, va_list va);
 int		check_options_correct(t_percent *options, va_list va);
 int		check_nums(t_percent *options, va_list va);
-int		is_flag(char c);
+char	get_flag(char *str, char conv);
 int		is_conversion(char c);
 char	*create_output(t_percent *options, int *err, va_list va);
 void	ft_putstr_err(char	*str, int *err);

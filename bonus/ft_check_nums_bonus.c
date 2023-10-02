@@ -12,18 +12,18 @@
 
 #include "ft_printf_bonus.h"
 
-int	is_flag(char c)
+static int	is_flag(char c)
 {
 	if (c == '.' || c == '#' || c == ' ' || c == '+' || c == '-' || c == '0')
 		return (1);
 	return (0);
 }
 
-char	get_flag(char *str, char conv)
+char get_flag(char *str, char conv)
 {
 	char	flag;
 
-	if (!is_flag(*str) && !ft_isdigit(*str) && *str != conv)
+	if (!is_flag(*str) && !ft_isdigit(*str) && *str != conv && *str != '*')
 		return (0);
 	flag = *str;
 	if (flag == '#' && !(conv == 'x' || conv == 'X'))
@@ -32,7 +32,9 @@ char	get_flag(char *str, char conv)
 		return (0);
 	if (flag == '0' && (conv == 's' || conv == 'c' || conv == 'p'))
 		return (0);
-	return (*str);
+	if (is_flag(flag))
+		return (*str);
+	return (-1);
 }
 
 static int	check_num_correct(char *str, char c, size_t *ptr, va_list va)

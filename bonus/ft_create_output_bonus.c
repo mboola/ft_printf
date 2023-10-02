@@ -89,15 +89,13 @@ char	*create_output(t_percent *options, int *err, va_list va)
 {
 	char	*output;
 	char	*tmp;
-	size_t	len;
 
 	output = convert_value(options->conversion, err, va);
 	if (*err)
 		return (NULL);
-	len = ft_strlen(output);
-	if (options->zeros != 0)
+	if (options->zeros != 0 || (options->zeros == 0 && options->precision))
 	{
-		if (options->zeros < len && options->precision && options->conversion == 's')
+		if (options->precision && options->conversion == 's')
 			tmp = resize_str(output, options->zeros, err);
 		else
 			tmp = add_zeros(output, options, err);
@@ -109,7 +107,6 @@ char	*create_output(t_percent *options, int *err, va_list va)
 	if (options->spaces != 0)
 	{
 		tmp = add_spaces(output, options, err);
-		free(output);
 		if (*err)
 			return (NULL);
 		output = tmp;

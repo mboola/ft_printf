@@ -56,24 +56,6 @@ static int	get_precision(char *str, char conv)
 	return (count);
 }
 
-static char get_flag(char *str, char conv)
-{
-	char	flag;
-
-	if (!is_flag(*str) && !ft_isdigit(*str) && *str != conv && *str != '*')
-		return (0);
-	flag = *str;
-	if (flag == '#' && !(conv == 'x' || conv == 'X'))
-		return (0);
-	if ((flag == '+' || flag == ' ') && !(conv == 'i' || conv == 'd'))
-		return (0);
-	if (flag == '0' && (conv == 's' || conv == 'c' || conv == 'p'))
-		return (0);
-	if (is_flag(flag))
-		return (*str);
-	return (-1);
-}
-
 /*	Flag might not exist and precision might also not exist
 */
 int	check_options_correct(t_percent *options, va_list va)

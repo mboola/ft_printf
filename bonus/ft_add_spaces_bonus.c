@@ -46,11 +46,6 @@ char	*add_zeros(char *output, t_percent *options, int *err)
 	char	*tmp;
 	int		neg;
 
-	zeros = create_str_of_char(ft_strlen(output), options->zeros, '0', err);
-	if (!*err && *zeros == '\0')
-		return (zeros);
-	if (*err)
-		return (NULL);
 	if (*output == '-')
 		neg = 1;
 	else
@@ -58,19 +53,30 @@ char	*add_zeros(char *output, t_percent *options, int *err)
 	tmp = copy_str(output + neg, err);
 	if (*err)
 		return (NULL);
-	tmp = join_and_free(zeros, tmp, err);
-	if (tmp == NULL)
-		return (NULL);
-	if (!neg)
-		return (tmp);
-	zeros = copy_char('-', err);
-	if (zeros == NULL)
+	zeros = create_str_of_char(ft_strlen(tmp), options->zeros, '0', err);
+	if (*err)
 	{
 		free(tmp);
 		return (NULL);
 	}
+	if (*zeros == '\0')
+	{
+		free(zeros);
+		free(tmp);
+		return (copy_str(output, err));
+	}
 	tmp = join_and_free(zeros, tmp, err);
-	return (tmp);
+	if (*err)
+		return (NULL);
+	if (!neg)
+		return (tmp);
+	zeros = copy_char('-', err);
+	if (*err)
+	{
+		free(tmp);
+		return (NULL);
+	}
+	return (join_and_free(zeros, tmp, err));
 }
 
 char	*add_spaces(char *output, t_percent *options, int *err)
