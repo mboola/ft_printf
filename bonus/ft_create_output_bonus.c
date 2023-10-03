@@ -93,6 +93,21 @@ char	*create_output(t_percent *options, int *err, va_list va)
 	output = convert_value(options->conversion, err, va);
 	if (*err)
 		return (NULL);
+	if (options->flag == '+' && (options->conversion == 'd' || options->conversion == 'i'))
+	{
+		if (*output != '-')
+		{
+			tmp = copy_char('+', err);
+			if (*err)
+			{
+				free(output);
+				return (NULL);
+			}
+			output = join_and_free(tmp, output, err);
+			if (*err)
+				return (NULL);
+		}
+	}
 	if (options->flag == '0')
 	{
 		tmp = add_zeros(output, options->spaces, options->flag, err);

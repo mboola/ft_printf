@@ -50,7 +50,10 @@ char	*add_zeros(char *output, size_t zeros_len, char flag, int *err)
 		neg = 1;
 	else
 		neg = 0;
-	tmp = copy_str(output + neg, err);
+	if (neg || flag == '+')
+		tmp = copy_str(output + 1, err);
+	else
+		tmp = copy_str(output, err);
 	if (*err)
 		return (NULL);
 	if (zeros_len > 0)
@@ -70,15 +73,20 @@ char	*add_zeros(char *output, size_t zeros_len, char flag, int *err)
 	tmp = join_and_free(zeros, tmp, err);
 	if (*err)
 		return (NULL);
-	if (!neg)
-		return (tmp);
-	zeros = copy_char('-', err);
-	if (*err)
+	if (flag == '+' || neg)
 	{
-		free(tmp);
-		return (NULL);
+		if (neg)
+			zeros = copy_char('-', err);
+		else
+			zeros = copy_char('+', err);
+		if (*err)
+		{
+			free(tmp);
+			return (NULL);
+		}
+		return (join_and_free(zeros, tmp, err));
 	}
-	return (join_and_free(zeros, tmp, err));
+	return (tmp);
 }
 
 char	*add_spaces(char *output, size_t spaces_len, char flag, int *err)
