@@ -88,6 +88,12 @@ char	*add_spaces(char *output, size_t spaces_len, char flag, int *err)
 	spaces = create_str_of_char(ft_strlen(output), spaces_len, ' ', err);
 	if (*err)
 		return (NULL);
+	if (*spaces == '\0' && flag == ' ' && *output != '-')
+	{
+		free(spaces);
+		spaces = copy_char(' ', err);
+		return (join_and_free(spaces, output, err));
+	}
 	if (flag == '-')
 		output = join_and_free(output, spaces, err);
 	else
