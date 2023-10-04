@@ -127,6 +127,10 @@ char	*create_output(t_percent *options, int *err, va_list va)
 				return (NULL);
 			output = tmp;
 		}
+		if (options->flag == '#' && options->conversion == 'x')
+			output = add_0x_front(output, err, 0);
+		if (options->flag == '#' && options->conversion == 'X')
+			output = add_0x_front(output, err, 1);
 		if (options->spaces != 0 || options->flag == ' ')
 		{
 			tmp = add_spaces(output, options->spaces, options->flag, err);

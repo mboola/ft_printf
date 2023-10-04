@@ -47,7 +47,7 @@ char	get_flag(char *str, char conv, int prec);
 int		is_conversion(char c);
 char	*create_output(t_percent *options, int *err, va_list va);
 void	ft_putstr_err(char	*str, int *err);
-char	*add_0x_front(char *str, int *err);
+char	*add_0x_front(char *str, int *err, int upper);
 char	*ft_putptr(void *ptr, char *base, int *err);
 char	*putnbr_sig_err(int nbr, char *base, int *err);
 char	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
