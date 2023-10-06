@@ -53,7 +53,7 @@ static char	*convert_value(char conv, int *err, va_list va)
 	char	*info;
 
 	if (conv == 'c')
-		info = copy_char(va_arg(va, int), err);
+		info = copy_char((char)va_arg(va, int), err);
 	else if (conv == 's')
 		info = copy_str(va_arg(va, char *), err);
 	else if (conv == 'u')
