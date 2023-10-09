@@ -70,7 +70,7 @@ char	*add_zeros(char *output, size_t zeros_len, char flag, int *err)
 		free(tmp);
 		return (copy_str(output, err));
 	}
-	tmp = join_and_free(zeros, tmp, err);
+	tmp = join_and_free(&zeros, &tmp, err);
 	if (*err)
 		return (NULL);
 	if (flag == '+' || neg)
@@ -84,7 +84,7 @@ char	*add_zeros(char *output, size_t zeros_len, char flag, int *err)
 			free(tmp);
 			return (NULL);
 		}
-		return (join_and_free(zeros, tmp, err));
+		return (join_and_free(&zeros, &tmp, err));
 	}
 	return (tmp);
 }
@@ -100,11 +100,11 @@ char	*add_spaces(char *output, size_t spaces_len, char flag, int *err)
 	{
 		free(spaces);
 		spaces = copy_char(' ', err);
-		return (join_and_free(spaces, output, err));
+		return (join_and_free(&spaces, &output, err));
 	}
 	if (flag == '-')
-		output = join_and_free(output, spaces, err);
+		output = join_and_free(&output, &spaces, err);
 	else
-		output = join_and_free(spaces, output, err);
+		output = join_and_free(&spaces, &output, err);
 	return (output);
 }

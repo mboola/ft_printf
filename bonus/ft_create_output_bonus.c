@@ -103,7 +103,7 @@ char	*create_output(t_percent *options, int *err, va_list va)
 				free(output);
 				return (NULL);
 			}
-			output = join_and_free(tmp, output, err);
+			output = join_and_free(&tmp, &output, err);
 			if (*err)
 				return (NULL);
 		}

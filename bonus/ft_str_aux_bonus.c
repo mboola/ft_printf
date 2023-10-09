@@ -12,22 +12,58 @@
 
 #include "ft_printf_bonus.h"
 
-static void	ft_putchar_err(char c, int *err)
+static void	ft_putchar_err(char c, int *len, int *err)
 {
 	if (write(1, &c, 1) < 0)
 		*err = -1;
+	else
+		*len = *len + 1;
 }
 
-void	ft_putstr_err(char	*str, int *err)
+static void	ft_putstr_err(char	*str, int *len, int *err)
 {
 	if (str == NULL)
-		*err = 1;
+		*err = -1;
 	else
 	{
-		while (*str != '\0' && !*err)
+		while (*err != -1 && *str != '\0')
 		{
-			ft_putchar_err(*str, err);
+			ft_putchar_err(*str, len, err);
 			str++;
 		}
 	}
+}
+
+char	*print_and_reset(char **str, int *len, int *err, int reset)
+{
+	char	*msg;
+
+	ft_putstr_err(*str, len, err);
+	if (*str != NULL)
+	{
+		free(*str);
+		str = NULL;
+	}
+	if (*err != -1 && reset)
+	{
+		msg = malloc(sizeof(char));
+		if (msg == NULL)
+			*err = -1;
+		else
+			*msg = '\0';
+		return (msg);
+	}
+	return (NULL);
+}
+
+char	*print_output(char **output, int *len, int *err, char *conv)
+{
+	if (*output == NULL)
+	{
+		*err = -1;
+		return (NULL);
+	}
+	if (**output == '\0' && *conv == 'c')
+		*len = *len + 1;
+	return (print_and_reset(output, len, err, 1));
 }

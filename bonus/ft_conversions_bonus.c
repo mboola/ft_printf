@@ -100,7 +100,7 @@ static char	*del_t_percent(t_percent *options, char *str)
 	return (str);
 }
 
-char	*manage_percent(char *str, char **msg, int *err, va_list va)
+char	*convert_output(char *str, char **msg, int *err, va_list va)
 {
 	t_percent	*options;
 	char		*output;
@@ -109,10 +109,10 @@ char	*manage_percent(char *str, char **msg, int *err, va_list va)
 	options = malloc(sizeof(t_percent));
 	if (options == NULL)
 	{
-		*err = 1;
+		*err = -1;
 		return (str);
 	}
-	options->info = get_substr_conversion(str, err);
+	options->info = get_substr_conversion(str + 1, err);
 	if (options->info == NULL)
 		return (del_t_percent(options, str));
 	output = get_final_output(options, err, va);
@@ -120,6 +120,6 @@ char	*manage_percent(char *str, char **msg, int *err, va_list va)
 		return (del_t_percent(options, str));
 	len = ft_strlen(options->info);
 	del_t_percent(options, str);
-	*msg = join_and_free(*msg, output, err);
+	*msg = join_and_free(msg, &output, err);
 	return (str + len);
 }

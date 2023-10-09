@@ -60,7 +60,7 @@ char	*add_0x_front(char *str, int *err, int upper)
 		pre = copy_str("0X", err);
 	if (str == NULL)
 		return (NULL);
-	return (join_and_free(pre, str, err));
+	return (join_and_free(&pre, &str, err));
 }
 
 char	*ft_putptr(void *ptr, char *base, int *err)

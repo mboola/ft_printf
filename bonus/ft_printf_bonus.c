@@ -12,65 +12,65 @@
 
 #include "ft_printf_bonus.h"
 
-char	*join_and_free(char *s1, char *s2, int *err)
+char	*join_and_free(char **s1, char **s2, int *err)
 {
 	char	*tmp;
 
-	tmp = ft_strjoin(s1, s2);
+	tmp = ft_strjoin(*s1, *s2);
 	if (tmp == NULL)
-		*err = 1;
-	free(s1);
-	free(s2);
+		*err = -1;
+	free(*s1);
+	*s1 = NULL;
+	free(*s2);
+	*s2 = NULL;
 	return (tmp);
 }
 
-static char	*create_msg(char *str, va_list va, int *err)
+static int	create_msg(char *str, va_list va, int *err)
 {
 	char	*msg;
-	char	*c;
+	char	*str_c;
+	int		len;
 
 	msg = malloc(sizeof(char));
 	if (msg == NULL)
-	{
-		*err = 1;
-		return (NULL);
-	}
-	*msg = '\0';
-	while (*str != '\0' && !*err)
+		*err = -1;
+	else
+		*msg = '\0';
+	len = 0;
+	while (*err != -1 && *str != '\0')
 	{
 		if (*str == '%')
 		{
-			str++;
-			str = manage_percent(str, &msg, err, va);
+			msg = print_and_reset(&msg, &len, err, 1);
+			if (*err != -1)
+			{
+				str = convert_output(str, &msg, err, va);
+				msg = print_output(&msg, &len, err, str);
+			}
 		}
 		else
 		{
-			c = ft_substr(str, 0, 1);
-			if (c == NULL)
-			{
-				*err = 1;
-				free(msg);
-				return (NULL);
-			}
-			msg = join_and_free(msg, c, err);
-			if (msg == NULL)
-				return (NULL);
-			str++;
+			str_c = ft_substr(str, 0, 1);
+			if (str_c == NULL)
+				*err = -1;
+			else
+				msg = join_and_free(&msg, &str_c, err);
 		}
+		if (*err != -1)
+			str++;
 	}
-	if (*err)
-	{
+	if (*err == -1 && msg != NULL)
 		free(msg);
-		msg = NULL;
-	}
-	return (msg);
+	print_and_reset(&msg, &len, err, 0);
+	return (len);
 }
 
 int	ft_printf(char const *s, ...)
 {
 	int		err;
 	va_list	va;
-	char	*msg;
+	int		len;
 	char	*str;
 
 	str = (char *)s;
@@ -78,17 +78,9 @@ int	ft_printf(char const *s, ...)
 		return (-1);
 	err = 0;
 	va_start(va, s);
-	msg = create_msg(str, va, &err);
+	len = create_msg(str, va, &err);
 	va_end(va);
 	if (err)
 		return (-1);
-	ft_putstr_err(msg, &err);
-	if (err)
-	{
-		free(msg);
-		return (-1);
-	}
-	err = ft_strlen(msg);
-	free(msg);
-	return (err);
+	return (len);
 }
