@@ -58,4 +58,4 @@ bonus: ${LIBFT} ${BONUS_OBJS}
 	@ar rcs ${NAME} ${BONUS_OBJS}
 	@echo "Compilation of $@ succesfull"
 	
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
