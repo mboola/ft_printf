@@ -64,6 +64,6 @@ char	*print_output(char **output, int *len, int *err, char *conv)
 		return (NULL);
 	}
 	if (**output == '\0' && *conv == 'c')
-		*len = *len + 1;
+		ft_putchar_err(**output, len, err);
 	return (print_and_reset(output, len, err, 1));
 }
