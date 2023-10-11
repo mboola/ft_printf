@@ -22,13 +22,9 @@ int	is_conversion(char c)
 
 static char	get_conversion(char *str)
 {
-	if (*str == '%')
-		return (*str);
 	while (*str != '\0' && !is_conversion(*str))
 		str++;
 	if (*str == '\0')
-		return (0);
-	if (*str == '%')
 		return (0);
 	return (*str);
 }

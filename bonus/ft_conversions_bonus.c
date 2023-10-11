@@ -64,12 +64,12 @@ static char	*get_final_output(t_percent *options, int *err, va_list va)
 
 	if (!check_options_correct(options, va))
 	{
-		*err = 1;
+		*err = -1;
 		return (NULL);
 	}
 	output = create_output(options, err, va);
 	if (output == NULL)
-		*err = 1;
+		*err = -1;
 	return (output);
 }
 
@@ -83,12 +83,12 @@ static char	*get_substr_conversion(char *str, int *err)
 		count++;
 	if (*(str + count) == '\0')
 	{
-		*err = 1;
+		*err = -1;
 		return (NULL);
 	}
 	substr = ft_substr(str, 0, count + 1);
 	if (substr == NULL)
-		*err = 1;
+		*err = -1;
 	return (substr);
 }
 

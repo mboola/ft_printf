@@ -93,6 +93,8 @@ char	*create_output(t_percent *options, int *err, va_list va)
 	output = convert_value(options->conversion, err, va);
 	if (*err)
 		return (NULL);
+	if (options->conversion == '%')
+		return (output);
 	if (options->flag == '+' && (options->conversion == 'd' || options->conversion == 'i'))
 	{
 		if (*output != '-')
