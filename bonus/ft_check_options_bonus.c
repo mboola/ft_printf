@@ -46,8 +46,6 @@ static int	get_precision(char *str, char conv)
 	{
 		if (conv == 'p')
 			return (-1);
-		else if (conv == 'c')
-			return (-1);
 	}
 	return (count);
 }
