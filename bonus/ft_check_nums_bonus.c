@@ -30,7 +30,7 @@ char get_flag(char *str, char conv, int prec)
 		return (0);
 	if ((flag == '+' || flag == ' ') && !(conv == 'i' || conv == 'd'))
 		return (0);
-	if (flag == '0' && (conv == 's' || conv == 'c' || conv == 'p' || prec))
+	if (flag == '0' && (conv == 's' || conv == 'p' || prec))
 		return (0);
 	if (is_flag(flag))
 		return (*str);
