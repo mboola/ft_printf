@@ -12,7 +12,7 @@
 
 #include "ft_printf_bonus.h"
 
-char	*copy_char(int	c, int *err)
+char	*copy_char(int c, int *err)
 {
 	char	*str;
 
@@ -90,12 +90,12 @@ char	*create_output(t_percent *options, int *err, va_list va)
 	char	*output;
 	char	*tmp;
 
-	output = convert_value(options->conversion, err, va);
+	output = convert_value(options->conv, err, va);
 	if (*err)
 		return (NULL);
-	if (options->conversion == '%')
+	if (options->conv == '%')
 		return (output);
-	if (options->flag == '+' && (options->conversion == 'd' || options->conversion == 'i'))
+	if (options->flag == '+' && (options->conv == 'd' || options->conv == 'i'))
 	{
 		if (*output != '-')
 		{
@@ -118,9 +118,9 @@ char	*create_output(t_percent *options, int *err, va_list va)
 	}
 	else
 	{
-		if (options->zeros != 0 || (options->zeros == 0 && options->precision))
+		if (options->zeros != 0 || (options->zeros == 0 && options->prec))
 		{
-			if (options->precision && options->conversion == 's')
+			if (options->prec && options->conv == 's')
 				tmp = resize_str(output, options->zeros, err);
 			else
 				tmp = add_zeros(output, options->zeros, options->flag, err);
@@ -129,9 +129,9 @@ char	*create_output(t_percent *options, int *err, va_list va)
 				return (NULL);
 			output = tmp;
 		}
-		if (options->flag == '#' && options->conversion == 'x')
+		if (options->flag == '#' && options->conv == 'x')
 			output = add_0x_front(output, err, 0);
-		if (options->flag == '#' && options->conversion == 'X')
+		if (options->flag == '#' && options->conv == 'X')
 			output = add_0x_front(output, err, 1);
 		if (options->spaces != 0 || options->flag == ' ')
 		{

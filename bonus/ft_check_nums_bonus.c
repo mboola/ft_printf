@@ -19,7 +19,7 @@ static int	is_flag(char c)
 	return (0);
 }
 
-char get_flag(char *str, char conv, int prec)
+char	get_flag(char *str, char conv, int prec)
 {
 	char	flag;
 
@@ -68,23 +68,23 @@ int	check_nums(t_percent *options, va_list va)
 	int		i;
 
 	str = options->info;
-	if (options->precision && options->flag == '0' && *(str + 1) == '0')
+	if (options->prec && options->flag == '0' && *(str + 1) == '0')
 		return (0);
 	if (options->flag != -1 && options->flag != '.')
 		str++;
-	if (options->precision)
+	if (options->prec)
 	{
 		i = check_num_correct(str, '.', &(options->spaces), va);
 		if (i == -1)
 			return (0);
 		str += i + 1;
-		if (check_num_correct(str, options->conversion, &(options->zeros), va) == -1)
+		if (check_num_correct(str, options->conv, &(options->zeros), va) == -1)
 			return (0);
 	}
 	else
 	{
 		options->zeros = 0;
-		if (check_num_correct(str, options->conversion, &(options->spaces), va) == -1)
+		if (check_num_correct(str, options->conv, &(options->spaces), va) == -1)
 			return (0);
 	}
 	return (1);

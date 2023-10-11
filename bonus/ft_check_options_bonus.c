@@ -50,19 +50,17 @@ static int	get_precision(char *str, char conv)
 	return (count);
 }
 
-/*	Flag might not exist and precision might also not exist
-*/
-int	check_options_correct(t_percent *options, va_list va)
+int	check_options(t_percent *options, va_list va)
 {
 	if (options->info == NULL)
 		return (0);
-	options->conversion = get_conversion(options->info);
-	if (!options->conversion)
+	options->conv = get_conversion(options->info);
+	if (!options->conv)
 		return (0);
-	options->precision = get_precision(options->info, options->conversion);
-	if (options->precision == -1)
+	options->prec = get_precision(options->info, options->conv);
+	if (options->prec == -1)
 		return (0);
-	options->flag = get_flag(options->info, options->conversion, options->precision);
+	options->flag = get_flag(options->info, options->conv, options->prec);
 	if (!options->flag)
 		return (0);
 	return (check_nums(options, va));

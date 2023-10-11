@@ -12,7 +12,7 @@
 
 #include "ft_printf_bonus.h"
 
-static char	*create_str_of_char(size_t outp_len, size_t total_len, char c, int *err)
+static char	*create_str(size_t outp_len, size_t total_len, char c, int *err)
 {
 	char	*str;
 	size_t	len;
@@ -58,7 +58,7 @@ char	*add_zeros(char *output, size_t zeros_len, char flag, int *err)
 		return (NULL);
 	if (zeros_len > 0)
 		zeros_len = zeros_len + (flag == '0') * (neg == 1) * -1;
-	zeros = create_str_of_char(ft_strlen(tmp), zeros_len, '0', err);
+	zeros = create_str(ft_strlen(tmp), zeros_len, '0', err);
 	if (*err)
 	{
 		free(tmp);
@@ -93,7 +93,7 @@ char	*add_spaces(char *output, size_t spaces_len, char flag, int *err)
 {
 	char	*spaces;
 
-	spaces = create_str_of_char(ft_strlen(output), spaces_len, ' ', err);
+	spaces = create_str(ft_strlen(output), spaces_len, ' ', err);
 	if (*err)
 		return (NULL);
 	if (*spaces == '\0' && flag == ' ' && *output != '-')

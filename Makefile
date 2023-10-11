@@ -15,11 +15,11 @@ OBJS			=	${FILES:.c=.o}
 
 BONUS_SRCS		=	./bonus
 BONUS_HEADER	=	${BONUS_SRCS}/ft_printf_bonus.h
-BONUS_FILES 	=	${BONUS_SRCS}/ft_conversions_bonus.c ${BONUS_SRCS}/ft_itoa_base_bonus.c \
-					${BONUS_SRCS}/ft_printf_bonus.c ${BONUS_SRCS}/ft_str_aux_bonus.c \
-					${BONUS_SRCS}/ft_putnbrbase_err_bonus.c ${BONUS_SRCS}/ft_check_nums_bonus.c \
-					${BONUS_SRCS}/ft_check_options_bonus.c ${BONUS_SRCS}/ft_create_output_bonus.c \
-					${BONUS_SRCS}/ft_add_spaces_bonus.c
+BONUS_FILES 	=	${BONUS_SRCS}/ft_add_spaces_bonus.c ${BONUS_SRCS}/ft_check_nums_bonus.c \
+					${BONUS_SRCS}/ft_check_options_bonus.c ${BONUS_SRCS}/ft_convert_to_output_bonus.c \
+					${BONUS_SRCS}/ft_create_output_bonus.c ${BONUS_SRCS}/ft_itoa_base_bonus.c \
+					${BONUS_SRCS}/ft_print_str_util_bonus.c ${BONUS_SRCS}/ft_printf_bonus.c \
+					${BONUS_SRCS}/ft_putnbrbase_err_bonus.c
 BONUS_OBJS		=	$(BONUS_FILES:_bonus.c=_bonus.o)
 
 # COMPILE  -L. -lft 
