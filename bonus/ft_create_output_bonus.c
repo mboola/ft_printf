@@ -19,7 +19,7 @@ char	*copy_char(int c, int *err)
 	str = malloc(sizeof(char) + 1);
 	if (str == NULL)
 	{
-		*err = 1;
+		*err = -1;
 		return (NULL);
 	}
 	*str = (char)c;
@@ -38,12 +38,12 @@ char	*copy_str(char *str, int *err)
 	info = malloc(sizeof(char) * (count + 1));
 	if (info == NULL)
 	{
-		*err = 1;
+		*err = -1;
 		return (NULL);
 	}
 	if (ft_strlcpy(info, str, count + 1) == count)
 		return (info);
-	*err = 1;
+	*err = -1;
 	free(info);
 	return (NULL);
 }
@@ -69,7 +69,7 @@ static char	*convert_value(char conv, int *err, va_list va)
 	else if (conv == '%')
 		info = copy_char('%', err);
 	else
-		*err = 1;
+		*err = -1;
 	if (!*err)
 		return (info);
 	return (NULL);
@@ -81,7 +81,7 @@ static char	*resize_str(char *str, size_t len, int *err)
 
 	output = ft_substr(str, 0, len);
 	if (output == NULL)
-		*err = 1;
+		*err = -1;
 	return (output);
 }
 

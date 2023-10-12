@@ -72,7 +72,13 @@ int	check_nums(t_percent *options, va_list va)
 		return (0);
 	if (options->flag != -1 && options->flag != '.')
 		str++;
-	if (options->prec)
+	if (options->prec && options->conv == 'c')
+	{
+		options->zeros = 0;
+		if (check_num_correct(str, '.', &(options->spaces), va) == -1)
+			return (0);
+	}
+	else if (options->prec)
 	{
 		i = check_num_correct(str, '.', &(options->spaces), va);
 		if (i == -1)
