@@ -85,32 +85,40 @@ static char	*resize_str(char *str, size_t len, int *err)
 	return (output);
 }
 
+static char	*add_plus(char **output, int *err)
+{
+	char	*tmp;
+
+	if (**output != '-')
+	{
+		tmp = copy_char('+', err);
+		if (*err == -1)
+		{
+			free(*output);
+			return (NULL);
+		}
+		*output = join_and_free(&tmp, output, err);
+	}
+	return (*output);
+}
+
 char	*create_output(t_percent *options, int *err, va_list va)
 {
 	char	*output;
 	char	*tmp;
 
 	output = convert_value(options->conv, err, va);
-	if (*err)
+	if (*err == -1)
 		return (NULL);
 	if (options->conv == '%')
 		return (output);
 	if (options->flag == '+' && (options->conv == 'd' || options->conv == 'i'))
 	{
-		if (*output != '-')
-		{
-			tmp = copy_char('+', err);
-			if (*err)
-			{
-				free(output);
-				return (NULL);
-			}
-			output = join_and_free(&tmp, &output, err);
-			if (*err)
-				return (NULL);
-		}
+		output = add_plus(&output, err);
+		if (*err == -1)
+			return (NULL);
 	}
-	if (options->flag == '0')
+	if (options->flag == '0' && options->conv != 'c')
 	{
 		tmp = add_zeros(output, options->spaces, options->flag, err);
 		free(output);

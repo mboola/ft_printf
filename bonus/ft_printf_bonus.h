@@ -46,7 +46,7 @@ char	*print_output(char **output, int *len, int *err, char *conv);
 int		check_options(t_percent *options, va_list va);
 
 int		check_nums(t_percent *options, va_list va);
-char	get_flag(char *str, char conv, int prec);
+char	get_flag(char *str, char conv);
 int		is_conversion(char c);
 char	*create_output(t_percent *options, int *err, va_list va);
 char	*add_0x_front(char *str, int *err, int upper);
