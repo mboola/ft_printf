@@ -44,7 +44,8 @@ typedef struct t_percent
 
 int		ft_printf(char const *str, ...);
 void	create_options(char *str, t_percent *options, va_list va, int *err);
-char	*create_output(t_percent *options, va_list va, int *err);
+char	*create_output(t_percent *options, va_list va, int *len, int *err);
+char	*create_output_char(char **output, t_percent *opt, int *len, int *err);
 void	print_and_free_output(char **output, int *len, int *err);
 int		get_nums(t_percent *opt, va_list va, int *err);
 char	*get_raw_output(char conv, va_list va, int *err);

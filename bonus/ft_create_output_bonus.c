@@ -48,7 +48,7 @@ static char	*add_base(char **output, char conv, int *err)
 	return (join_and_free(&front, output, err));
 }
 
-char	*create_output(t_percent *options, va_list va, int *err)
+char	*create_output(t_percent *options, va_list va, int *len, int *err)
 {
 	char	*output;
 
@@ -57,6 +57,8 @@ char	*create_output(t_percent *options, va_list va, int *err)
 		return (NULL);
 	if (options->conv == '%')
 		return (output);
+	if (options->conv == 'c')
+		return (create_output_char(&output, options, len, err));
 	if (options->add_plus)
 		output = add_plus(&output, err);
 	else if (options->base)

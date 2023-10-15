@@ -20,7 +20,7 @@ BONUS_FILES 	=	${BONUS_SRCS}/ft_add_spaces_bonus.c ${BONUS_SRCS}/ft_add_zeros_bo
 					${BONUS_SRCS}/ft_create_options_bonus.c ${BONUS_SRCS}/ft_create_output_bonus.c \
 					${BONUS_SRCS}/ft_get_nums_bonus.c ${BONUS_SRCS}/ft_get_raw_output_bonus.c \
 					${BONUS_SRCS}/ft_itoa_base_bonus.c ${BONUS_SRCS}/ft_putnbrbase_err_bonus.c \
-					${BONUS_SRCS}/ft_printf_bonus.c
+					${BONUS_SRCS}/ft_printf_bonus.c ${BONUS_SRCS}/ft_create_output_char_bonus.c
 BONUS_OBJS		=	$(BONUS_FILES:_bonus.c=_bonus.o)
 
 # COMPILE  -L. -lft 
