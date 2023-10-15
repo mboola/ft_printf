@@ -12,56 +12,44 @@
 
 #include "ft_printf_bonus.h"
 
-int	is_conversion(char c)
+static int	get_range(int *num, char **str, char delimiter, va_list va)
 {
-	if (c == 'c' || c == 's' || c == 'u' || c == 'p' || c == 'i' || c == 'd'
-		|| c == 'x' || c == 'X' || c == '%')
+	if (**str == '*' && *(*str + 1) != delimiter)
+		return (0);
+	else if (**str == '*')
+	{
+		*num = va_arg(va, int);
+		(*str)++;
+	}
+	else
+		*num = ft_atoi(*str);
+	while (**str != delimiter && **str != '*')
+		(*str)++;
+	if (**str == '*')
+		return (0);
+	return (1);
+}
+
+int	get_nums(t_percent *opt, va_list va, int *err)
+{
+	char	*str;
+
+	str = opt->info;
+	while (*str != opt->conv && is_flag(*str))
+		str++;
+	if (*str == opt->conv)
 		return (1);
-	return (0);
-}
-
-static char	get_conversion(char *str)
-{
-	while (*str != '\0' && !is_conversion(*str))
-		str++;
-	if (*str == '\0')
-		return (0);
-	return (*str);
-}
-
-static int	get_precision(char *str, char conv)
-{
-	int	count;
-
-	count = 0;
-	while (*str != '\0')
+	if (opt->prec && !get_range(&(opt->num_spaces), &str, '.', va))
 	{
-		if (*str == '.')
-			count++;
+		*err = -1;
+		return (0);
+	}
+	else if (opt->prec)
 		str++;
-	}
-	if (count > 1)
-		return (-1);
-	if (count)
+	if (!get_range(&(opt->num_zeros), &str, opt->conv, va))
 	{
-		if (conv == 'p')
-			return (-1);
+		*err = -1;
+		return (0);
 	}
-	return (count);
-}
-
-int	check_options(t_percent *options, va_list va)
-{
-	if (options->info == NULL)
-		return (0);
-	options->conv = get_conversion(options->info);
-	if (!options->conv)
-		return (0);
-	options->prec = get_precision(options->info, options->conv);
-	if (options->prec == -1)
-		return (0);
-	options->flag = get_flag(options->info, options->conv, options->prec);
-	if (!options->flag)
-		return (0);
-	return (check_nums(options, va));
+	return (1);
 }

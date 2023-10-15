@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_aux_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_aux_func2_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ft_printf_bonus.h"
 
-static void	ft_putchar_err(char c, int *len, int *err)
+void	ft_putchar_err(char c, int *len, int *err)
 {
 	if (write(1, &c, 1) < 0)
 		*err = -1;
@@ -34,28 +34,14 @@ static void	ft_putstr_err(char	*str, int *len, int *err)
 	}
 }
 
-char	*print_and_reset(char **str, int *len, int *err, int reset)
+void	print_and_free_output(char **output, int *len, int *err)
 {
-	char	*msg;
-
-	ft_putstr_err(*str, len, err);
-	if (*str != NULL)
-	{
-		free(*str);
-		str = NULL;
-	}
-	if (*err != -1 && reset)
-	{
-		msg = malloc(sizeof(char));
-		if (msg == NULL)
-			*err = -1;
-		else
-			*msg = '\0';
-		return (msg);
-	}
-	return (NULL);
+	//tests of char and other things before printing (case char \0 and probably other things)
+	ft_putstr_err(*output, len, err);
+	free(*output);
 }
 
+/*
 char	*print_output(char **output, int *len, int *err, char *conv)
 {
 	if (*output == NULL)
@@ -67,3 +53,4 @@ char	*print_output(char **output, int *len, int *err, char *conv)
 		ft_putchar_err(**output, len, err);
 	return (print_and_reset(output, len, err, 1));
 }
+*/

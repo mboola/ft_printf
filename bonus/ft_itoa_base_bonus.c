@@ -50,17 +50,17 @@ static char	*ft_itoa_base_addr(unsigned long n, char *base, int *err)
 	return (str);
 }
 
-char	*add_0x_front(char *str, int *err, int upper)
+static char	*add_0x_front(char **str, int *err)
 {
-	char	*pre;
+	char	*front;
 
-	if (!upper)
-		pre = copy_str("0x", err);
-	else
-		pre = copy_str("0X", err);
-	if (str == NULL)
+	front = ft_strdup("0x");
+	if (front == NULL)
+	{
+		*err = -1;
 		return (NULL);
-	return (join_and_free(&pre, &str, err));
+	}
+	return (join_and_free(&front, str, err));
 }
 
 char	*ft_putptr(void *ptr, char *base, int *err)
@@ -70,5 +70,5 @@ char	*ft_putptr(void *ptr, char *base, int *err)
 	str = ft_itoa_base_addr((unsigned long)ptr, base, err);
 	if (str == NULL)
 		return (NULL);
-	return (add_0x_front(str, err, 0));
+	return (add_0x_front(&str, err));
 }

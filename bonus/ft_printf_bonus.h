@@ -31,31 +31,33 @@
 typedef struct t_percent
 {
 	char	*info;
-	char	flag;
 	char	conv;
-	int		prec;
-	size_t	spaces;
-	size_t	zeros;
+	char	prec;
+	char	sp_inv;
+	char	add_plus;
+	char	front_space;
+	char	zero;
+	char	base;
+	int		num_spaces;
+	int		num_zeros;
 }	t_percent;
 
 int		ft_printf(char const *str, ...);
-char	*join_and_free(char **s1, char **s2, int *err);
-char	*print_and_reset(char **msg, int *len, int *err, int reset);
-char	*convert_to_output(char *str, char **msg, int *err, va_list va);
-char	*print_output(char **output, int *len, int *err, char *conv);
-int		check_options(t_percent *options, va_list va);
-
-int		check_nums(t_percent *options, va_list va);
-char	get_flag(char *str, char conv, int prec);
-int		is_conversion(char c);
-char	*create_output(t_percent *options, int *err, va_list va);
-char	*add_0x_front(char *str, int *err, int upper);
-char	*ft_putptr(void *ptr, char *base, int *err);
+void	create_options(char *str, t_percent *options, va_list va, int *err);
+char	*create_output(t_percent *options, va_list va, int *err);
+void	print_and_free_output(char **output, int *len, int *err);
+int		get_nums(t_percent *opt, va_list va, int *err);
+char	*get_raw_output(char conv, va_list va, int *err);
+char	*add_zeros(char **output, t_percent *opt, int *err);
+char	*add_spaces(char **output, t_percent *options, int *err);
 char	*putnbr_sig_err(int nbr, char *base, int *err);
 char	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
-char	*copy_str(char *str, int *err);
-char	*copy_char(int c, int *err);
-char	*add_zeros(char *output, size_t zeros_len, char flag, int *err);
-char	*add_spaces(char *output, size_t spaces_len, char flag, int *err);
+char	*ft_putptr(void *ptr, char *base, int *err);
+int		is_flag(char c);
+int		is_conversion(char c);
+char	*char_to_str(int c, int *err);
+char	*create_str(int length, char c, int *err);
+char	*join_and_free(char **s1, char **s2, int *err);
+void	ft_putchar_err(char c, int *len, int *err);
 
 #endif

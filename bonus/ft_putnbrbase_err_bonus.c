@@ -50,8 +50,6 @@ static int	get_numsize(int n, int len)
 	return (size);
 }
 
-/* Creates a t_lst with the unsigned int recived from param
-*/
 char	*putnbr_uns_err(unsigned int nbr, char *base, int *err)
 {
 	char			*str;
