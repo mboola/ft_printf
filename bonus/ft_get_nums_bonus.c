@@ -39,14 +39,21 @@ int	get_nums(t_percent *opt, va_list va, int *err)
 		str++;
 	if (*str == opt->conv)
 		return (1);
-	if (opt->prec && !get_range(&(opt->num_spaces), &str, '.', va))
+	if (opt->prec)
 	{
-		*err = -1;
-		return (0);
-	}
-	else if (opt->prec)
+		if (!get_range(&(opt->num_spaces), &str, '.', va))
+		{
+			*err = -1;
+			return (0);
+		}
 		str++;
-	if (!get_range(&(opt->num_zeros), &str, opt->conv, va))
+		if (!get_range(&(opt->num_zeros), &str, opt->conv, va))
+		{
+			*err = -1;
+			return (0);
+		}
+	}
+	else if (!get_range(&(opt->num_spaces), &str, opt->conv, va))
 	{
 		*err = -1;
 		return (0);

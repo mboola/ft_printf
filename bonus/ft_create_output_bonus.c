@@ -65,7 +65,7 @@ char	*create_output(t_percent *options, va_list va, int *err)
 		return (NULL);
 	if (options->zero)
 		return (add_zeros(&output, options, err));
-	if (options->num_zeros != 0 || options->prec)
+	if (options->prec)
 		output = add_zeros(&output, options, err);
 	if (*err == -1)
 		return (NULL);
