@@ -49,12 +49,12 @@ static char	*convert_and_print(char *str, int *len, va_list va, int *err)
 static int	print_all_output(char *str, va_list va, int *err)
 {
 	int		len;
-	
+
 	len = 0;
 	while (*err != -1 && *str != '\0')
 	{
 		if (*str == '%')
-			 str = convert_and_print(str, &len, va, err);
+			str = convert_and_print(str, &len, va, err);
 		else
 			ft_putchar_err(*str, err, &len);
 		if (*err != -1)

@@ -69,7 +69,7 @@ static char	*get_flags_sub(char *str, int *err)
 	size_t	count;
 
 	count = 0;
-	while (*(str + count) != '\0' && is_flag(*(str + count)))
+	while (*(str + count) != '\0' && is_flag(*(str + count), 0))
 		count++;
 	substr = ft_substr(str, 0, count + 1);
 	if (substr == NULL)
@@ -78,8 +78,8 @@ static char	*get_flags_sub(char *str, int *err)
 		return (NULL);
 	}
 	str = str + count;
-	while (*str != '\0' && (ft_isdigit(*str) || *str == '.' 
-		|| is_conversion(*str) || *str == '*'))
+	while (*str != '\0' && (ft_isdigit(*str) || *str == '.'
+			|| is_conversion(*str) || *str == '*'))
 		str++;
 	if (*str != '\0')
 	{
@@ -101,13 +101,13 @@ static int	get_flags(t_percent *opt, int *err)
 		opt->sp_inv = 1;
 	else if (ft_strchr(flags_sub, '0') != NULL)
 		opt->zero = 1;
-	if (ft_strchr(flags_sub, '+') != NULL && opt->conv != 'x' 
+	if (ft_strchr(flags_sub, '+') != NULL && opt->conv != 'x'
 		&& opt->conv == 'X')
 		opt->add_plus = 1;
 	else if (ft_strchr(flags_sub, ' ') != NULL)
 		opt->front_space = 1;
-	if (ft_strchr(flags_sub, '#') != NULL && (opt->conv == 'x' 
-		|| opt->conv == 'X'))
+	if (ft_strchr(flags_sub, '#') != NULL && (opt->conv == 'x'
+			|| opt->conv == 'X'))
 		opt->base = 1;
 	return (1);
 }

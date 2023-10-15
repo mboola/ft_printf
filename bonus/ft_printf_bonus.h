@@ -53,7 +53,7 @@ char	*add_spaces(char **output, t_percent *options, int *err);
 char	*putnbr_sig_err(int nbr, char *base, int *err);
 char	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
 char	*ft_putptr(void *ptr, char *base, int *err);
-int		is_flag(char c);
+int		is_flag(char c, int prec);
 int		is_conversion(char c);
 char	*char_to_str(int c, int *err);
 char	*create_str(int length, char c, int *err);

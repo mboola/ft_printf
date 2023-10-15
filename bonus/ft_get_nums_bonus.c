@@ -35,7 +35,7 @@ int	get_nums(t_percent *opt, va_list va, int *err)
 	char	*str;
 
 	str = opt->info;
-	while (*str != opt->conv && is_flag(*str))
+	while (*str != opt->conv && is_flag(*str, 0))
 		str++;
 	if (*str == opt->conv)
 		return (1);

@@ -12,9 +12,11 @@
 
 #include "ft_printf_bonus.h"
 
-int	is_flag(char c)
+int	is_flag(char c, int prec)
 {
-	if (c == '.' || c == '#' || c == ' ' || c == '+' || c == '-' || c == '0')
+	if (c == '#' || c == ' ' || c == '+' || c == '-' || c == '0')
+		return (1);
+	if (prec && c == '.')
 		return (1);
 	return (0);
 }

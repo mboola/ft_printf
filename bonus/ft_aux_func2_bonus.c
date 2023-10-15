@@ -36,7 +36,7 @@ static void	ft_putstr_err(char	*str, int *len, int *err)
 
 void	print_and_free_output(char **output, int *len, int *err)
 {
-	//tests of char and other things before printing (case char \0 and probably other things)
+	//tests of char and other things before printing 
 	ft_putstr_err(*output, len, err);
 	free(*output);
 }
