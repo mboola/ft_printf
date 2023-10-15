@@ -102,7 +102,7 @@ static int	get_flags(t_percent *opt, int *err)
 	else if (ft_strchr(flags_sub, '0') != NULL)
 		opt->zero = 1;
 	if (ft_strchr(flags_sub, '+') != NULL && opt->conv != 'x'
-		&& opt->conv == 'X')
+		&& opt->conv != 'X')
 		opt->add_plus = 1;
 	else if (ft_strchr(flags_sub, ' ') != NULL)
 		opt->front_space = 1;

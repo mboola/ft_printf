@@ -19,7 +19,7 @@ char	*add_spaces(char **output, t_percent *options, int *err)
 	spaces = create_str(options->num_spaces - ft_strlen(*output), ' ', err);
 	if (*err)
 		return (NULL);
-	if (*spaces == '\0' && options->front_space) //&& *output != '-'
+	if (*spaces == '\0' && options->front_space && **output != '-')
 	{
 		free(spaces);
 		spaces = char_to_str(' ', err);

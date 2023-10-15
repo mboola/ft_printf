@@ -46,7 +46,10 @@ static char	*add_zeros_front(char *output, t_percent *opt, int len, int *err)
 		num_chars = ft_strlen(output);
 	else
 		num_chars = ft_strlen(raw_str);
-	zeros = create_str(opt->num_zeros - num_chars, '0', err);
+	if (opt->zero)
+		zeros = create_str(opt->num_spaces - num_chars, '0', err);
+	else
+		zeros = create_str(opt->num_zeros - num_chars, '0', err);
 	if (*err == -1)
 	{
 		free(substr);

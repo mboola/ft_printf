@@ -69,7 +69,7 @@ char	*create_output(t_percent *options, va_list va, int *err)
 		output = add_zeros(&output, options, err);
 	if (*err == -1)
 		return (NULL);
-	if (options->num_spaces != 0)
+	if (options->num_spaces != 0 || options->front_space)
 		output = add_spaces(&output, options, err);
 	return (output);
 }
