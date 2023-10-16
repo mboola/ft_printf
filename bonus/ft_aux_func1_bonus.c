@@ -29,21 +29,6 @@ int	is_conversion(char c)
 	return (0);
 }
 
-char	*char_to_str(int c, int *err)
-{
-	char	*str;
-
-	str = malloc(sizeof(char) + 1);
-	if (str == NULL)
-	{
-		*err = -1;
-		return (NULL);
-	}
-	*str = (char)c;
-	*(str + 1) = '\0';
-	return (str);
-}
-
 char	*create_str(int length, char c, int *err)
 {
 	char	*tmp;

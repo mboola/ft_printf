@@ -48,33 +48,33 @@ static char	*add_base(char **output, char conv, int *err)
 	return (join_and_free(&front, output, err));
 }
 
-char	*create_output(t_percent *options, va_list va, int *len, int *err)
+char	*create_output(t_percent *opt, va_list va, int *len, int *err)
 {
 	char	*output;
 
-	output = get_raw_output(options->conv, va, err);
-	if (*err == -1)
-		return (NULL);
-	if (options->conv == '%')
-		return (output);
-	if (options->conv == 'c')
-		return (create_output_char(&output, options, len, err));
-	if (options->conv == 's')
-		return (create_output_string(&output, options, err));
+	if (opt->conv == '%')
+		return (char_to_str('%', err));
+	else if (opt->conv == 'c')
+		return (create_output_char((char)va_arg(va, int), opt, len, err));
+	else if (opt->conv == 's')
+		return (create_output_string(va_arg(va, char *), opt, err));
 
-	if (options->add_plus)
+	output = get_raw_output(opt->conv, va, err);
+	if (*err == -1)
+		return (NULL);
+	if (opt->add_plus)
 		output = add_plus(&output, err);
-	else if (options->base)
-		output = add_base(&output, options->conv, err);
+	else if (opt->base)
+		output = add_base(&output, opt->conv, err);
 	if (*err == -1)
 		return (NULL);
-	if (options->zero)
-		return (add_zeros(&output, options, err));
-	if (options->prec)
-		output = add_zeros(&output, options, err);
+	if (opt->zero)
+		return (add_zeros(&output, opt, err));
+	if (opt->prec)
+		output = add_zeros(&output, opt, err);
 	if (*err == -1)
 		return (NULL);
-	if (options->num_spaces != 0 || options->front_space)
-		output = add_spaces(&output, options, err);
+	if (opt->num_spaces != 0 || opt->front_space)
+		output = add_spaces(&output, opt, err);
 	return (output);
 }
