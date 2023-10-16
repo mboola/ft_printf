@@ -59,6 +59,9 @@ char	*create_output(t_percent *options, va_list va, int *len, int *err)
 		return (output);
 	if (options->conv == 'c')
 		return (create_output_char(&output, options, len, err));
+	if (options->conv == 's')
+		return (create_output_string(&output, options, err));
+
 	if (options->add_plus)
 		output = add_plus(&output, err);
 	else if (options->base)

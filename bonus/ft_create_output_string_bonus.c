@@ -12,13 +12,30 @@
 
 #include "ft_printf_bonus.h"
 
-char	*create_output_char(char **output, t_percent *opt, int *len, int *err)
+static char	*resize_str(char *str, size_t len, int *err)
 {
+	char	*output;
+
+	output = ft_substr(str, 0, len);
+	if (output == NULL)
+		*err = -1;
+	return (output);
+}
+
+char	*create_output_string(char **output, t_percent *opt, int *err)
+{
+	char	*zeros;
 	char	*spaces;
 
-	if (**output == '\0')
-		*len += 1;
-	spaces = create_str(opt->num_spaces - 1, ' ', err);
+	if (opt->prec)
+	{
+		zeros = resize_str(*output, opt->num_zeros, err);
+		free(*output);
+		if (*err == -1)
+			return (NULL);
+		*output = zeros;
+	}
+	spaces = create_str(opt->num_spaces - ft_strlen(*output), ' ', err);
 	if (*err == -1)
 	{
 		free(*output);

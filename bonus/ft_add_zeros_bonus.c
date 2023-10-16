@@ -12,16 +12,6 @@
 
 #include "ft_printf_bonus.h"
 
-static char	*resize_str(char *str, size_t len, int *err)
-{
-	char	*output;
-
-	output = ft_substr(str, 0, len);
-	if (output == NULL)
-		*err = -1;
-	return (output);
-}
-
 static char	*add_zeros_front(char *output, t_percent *opt, int len, int *err)
 {
 	char	*substr;
@@ -70,20 +60,15 @@ char	*add_zeros(char **output, t_percent *opt, int *err)
 	char	*zeros;
 	int		len;
 
-	if (opt->prec && opt->conv == 's')
-		zeros = resize_str(*output, opt->num_zeros, err);
+	if (opt->base && (opt->conv == 'x' || opt->conv == 'X'))
+		len = 2;
+	else if (opt->add_plus && (opt->conv == 'd' || opt->conv == 'i'))
+		len = 1;
+	else if ((opt->conv == 'd' || opt->conv == 'i') && **output == '-')
+		len = 1;
 	else
-	{
-		if (opt->base && (opt->conv == 'x' || opt->conv == 'X'))
-			len = 2;
-		else if (opt->add_plus && (opt->conv == 'd' || opt->conv == 'i'))
-			len = 1;
-		else if ((opt->conv == 'd' || opt->conv == 'i') && **output == '-')
-			len = 1;
-		else
-			len = 0;
-		zeros = add_zeros_front(*output, opt, len, err);
-	}
+		len = 0;
+	zeros = add_zeros_front(*output, opt, len, err);
 	free(*output);
 	return (zeros);
 }
