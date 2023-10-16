@@ -58,6 +58,8 @@ char	*create_output(t_percent *opt, va_list va, int *len, int *err)
 		return (create_output_char((char)va_arg(va, int), opt, len, err));
 	else if (opt->conv == 's')
 		return (create_output_string(va_arg(va, char *), opt, err));
+	else if (opt->conv == 'p')
+		return (create_output_pointer(va_arg(va, void *), opt, err));
 
 	output = get_raw_output(opt->conv, va, err);
 	if (*err == -1)

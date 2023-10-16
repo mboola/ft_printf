@@ -49,6 +49,27 @@ char	*create_str(int length, char c, int *err)
 	return (tmp);
 }
 
+char	*copy_str(char *str, int *err)
+{
+	size_t	count;
+	char	*output;
+
+	if (str == NULL)
+		return (copy_str("(null)", err));
+	count = ft_strlen(str);
+	output = malloc(sizeof(char) * (count + 1));
+	if (output == NULL)
+	{
+		*err = -1;
+		return (NULL);
+	}
+	if (ft_strlcpy(output, str, count + 1) == count)
+		return (output);
+	*err = -1;
+	free(output);
+	return (NULL);
+}
+
 char	*join_and_free(char **s1, char **s2, int *err)
 {
 	char	*tmp;

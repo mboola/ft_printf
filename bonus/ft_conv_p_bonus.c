@@ -12,53 +12,76 @@
 
 #include "ft_printf_bonus.h"
 
-static char	*resize_str(char **str, size_t len, int *err)
+static char	*add_0x_front(char **str, int *err)
 {
-	char	*output;
+	char	*front;
 
-	output = ft_substr(*str, 0, len);
-	free(*str);
-	if (output == NULL)
-		*err = -1;
-	return (output);
-}
-
-static char	*copy_str(char *str, int *err)
-{
-	size_t	count;
-	char	*output;
-
-	if (str == NULL)
-		return (copy_str("(null)", err));
-	count = ft_strlen(str);
-	output = malloc(sizeof(char) * (count + 1));
-	if (output == NULL)
+	front = ft_strdup("0x");
+	if (front == NULL)
 	{
 		*err = -1;
 		return (NULL);
 	}
-	if (ft_strlcpy(output, str, count + 1) == count)
-		return (output);
-	*err = -1;
-	free(output);
-	return (NULL);
+	return (join_and_free(&front, str, err));
 }
 
-char	*create_output_string(char *input, t_percent *opt, int *err)
+static int	rec_putnbr(char *str, unsigned long number, int pos, char *base)
 {
-	char	*spaces;
-	char	*output;
-
-	if (input == NULL && opt->num_zeros > 0 &&  opt->num_zeros < 6)
-		output = copy_str("\0", err);
+	if (number / ft_strlen(base) < 1)
+		*str = base[number];
 	else
-		output = copy_str(input, err);
-	if (opt->prec)
 	{
-		output = resize_str(&output, opt->num_zeros, err);
-		if (*err == -1)
-			return (NULL);
+		pos = rec_putnbr(str, number / ft_strlen(base), pos, base);
+		*(str + pos) = base[number % ft_strlen(base)];
 	}
+	return (pos + 1);
+}
+
+static char	*ft_itoa_base_addr(unsigned long n, char *base, int *err)
+{
+	int				size;
+	unsigned long	num;
+	char			*str;
+
+	size = 1;
+	if (n == 0)
+		size++;
+	num = n;
+	while (num > 0)
+	{
+		num /= ft_strlen(base);
+		size++;
+	}
+	str = malloc(sizeof(char) * size);
+	if (str == NULL)
+	{
+		*err = 1;
+		return (NULL);
+	}
+	rec_putnbr(str, n, 0, base);
+	*(str + size - 1) = '\0';
+	return (str);
+}
+
+static char	*ft_putptr(void *ptr, char *base, int *err)
+{
+	char	*str;
+
+	str = ft_itoa_base_addr((unsigned long)ptr, base, err);
+	if (str == NULL)
+		return (NULL);
+	return (add_0x_front(&str, err));
+}
+
+char	*create_output_pointer(void *ptr, t_percent *opt, int *err)
+{
+	char	*output;
+	char	*spaces;
+
+	if (ptr == NULL)
+		output = copy_str("(nil)", err);
+	else
+		output = ft_putptr(ptr, HEXBASEL, err);
 	spaces = create_str(opt->num_spaces - ft_strlen(output), ' ', err);
 	if (*err == -1)
 	{

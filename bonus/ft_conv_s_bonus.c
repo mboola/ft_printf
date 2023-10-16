@@ -12,23 +12,41 @@
 
 #include "ft_printf_bonus.h"
 
-char	*get_raw_output(char conv, va_list va, int *err)
+static char	*resize_str(char **str, size_t len, int *err)
 {
 	char	*output;
 
-	if (conv == 'u')
-		output = putnbr_uns_err((va_arg(va, unsigned int)), DECBASE, err);
-	else if (conv == 'i' || conv == 'd')
-		output = putnbr_sig_err(va_arg(va, int), DECBASE, err);
-	else if (conv == 'x')
-		output = putnbr_uns_err((va_arg(va, unsigned int)), HEXBASEL, err);
-	else if (conv == 'X')
-		output = putnbr_uns_err((va_arg(va, unsigned int)), HEXBASEH, err);
-	else if (conv == '%')
-		output = char_to_str('%', err);
-	else
+	output = ft_substr(*str, 0, len);
+	free(*str);
+	if (output == NULL)
 		*err = -1;
+	return (output);
+}
+
+char	*create_output_string(char *input, t_percent *opt, int *err)
+{
+	char	*spaces;
+	char	*output;
+
+	if (input == NULL && opt->num_zeros > 0 &&  opt->num_zeros < 6)
+		output = copy_str("\0", err);
+	else
+		output = copy_str(input, err);
+	if (opt->prec)
+	{
+		output = resize_str(&output, opt->num_zeros, err);
+		if (*err == -1)
+			return (NULL);
+	}
+	spaces = create_str(opt->num_spaces - ft_strlen(output), ' ', err);
 	if (*err == -1)
+	{
+		free(output);
 		return (NULL);
+	}
+	if (opt->sp_inv)
+		output = join_and_free(&output, &spaces, err);
+	else
+		output = join_and_free(&spaces, &output, err);
 	return (output);
 }
