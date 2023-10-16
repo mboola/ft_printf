@@ -18,8 +18,6 @@ char	*get_raw_output(char conv, va_list va, int *err)
 
 	if (conv == 'u')
 		output = putnbr_uns_err((va_arg(va, unsigned int)), DECBASE, err);
-	else if (conv == 'i' || conv == 'd')
-		output = putnbr_sig_err(va_arg(va, int), DECBASE, err);
 	else if (conv == 'x')
 		output = putnbr_uns_err((va_arg(va, unsigned int)), HEXBASEL, err);
 	else if (conv == 'X')

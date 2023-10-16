@@ -15,12 +15,10 @@ OBJS			=	${FILES:.c=.o}
 
 BONUS_SRCS		=	./bonus
 BONUS_HEADER	=	${BONUS_SRCS}/ft_printf_bonus.h
-BONUS_FILES 	=	${BONUS_SRCS}/ft_add_spaces_bonus.c ${BONUS_SRCS}/ft_add_zeros_bonus.c \
-					${BONUS_SRCS}/ft_aux_func1_bonus.c ${BONUS_SRCS}/ft_aux_func2_bonus.c \
-					${BONUS_SRCS}/ft_conv_c_bonus.c ${BONUS_SRCS}/ft_conv_d_bonus.c \
-					${BONUS_SRCS}/ft_conv_i_bonus.c ${BONUS_SRCS}/ft_conv_p_bonus.c \
+BONUS_FILES 	=	${BONUS_SRCS}/ft_aux_func1_bonus.c ${BONUS_SRCS}/ft_aux_func2_bonus.c \
+					${BONUS_SRCS}/ft_conv_c_bonus.c ${BONUS_SRCS}/ft_conv_x_and_X_bonus.c \
+					${BONUS_SRCS}/ft_conv_i_and_d_bonus.c ${BONUS_SRCS}/ft_conv_p_bonus.c \
 					${BONUS_SRCS}/ft_conv_s_bonus.c ${BONUS_SRCS}/ft_conv_u_bonus.c \
-					${BONUS_SRCS}/ft_conv_x_bonus.c ${BONUS_SRCS}/ft_conv_X_bonus.c \
 					${BONUS_SRCS}/ft_create_options_bonus.c ${BONUS_SRCS}/ft_create_output_bonus.c \
 					${BONUS_SRCS}/ft_get_nums_bonus.c ${BONUS_SRCS}/ft_get_raw_output_bonus.c \
 					${BONUS_SRCS}/ft_putnbrbase_err_bonus.c ${BONUS_SRCS}/ft_printf_bonus.c

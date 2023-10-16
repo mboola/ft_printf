@@ -41,6 +41,47 @@ void	print_and_free_output(char **output, int *len, int *err)
 	free(*output);
 }
 
+char	*add_spaces(char **output, t_percent *options, int *err)
+{
+	char	*spaces;
+
+	spaces = create_str(options->num_spaces - ft_strlen(*output), ' ', err);
+	if (*err)
+		return (NULL);
+	if (*spaces == '\0' && options->front_space && **output != '-')
+	{
+		free(spaces);
+		spaces = char_to_str(' ', err);
+		if (*err == -1)
+			return (NULL);
+		return (join_and_free(&spaces, output, err));
+	}
+	if (options->sp_inv)
+		*output = join_and_free(output, &spaces, err);
+	else
+		*output = join_and_free(&spaces, output, err);
+	return (*output);
+}
+
+char	*add_zeros(char **output, t_percent *opt, int sign_counts, int *err)
+{
+	char	*zeros;
+	size_t	num_chars;
+
+	num_chars = ft_strlen(*output) + sign_counts;
+	if (opt->zero && !(opt->prec))
+		zeros = create_str(opt->num_spaces - num_chars, '0', err);
+	else
+		zeros = create_str(opt->num_zeros - num_chars, '0', err);
+	if (*err == -1)
+	{
+		free(*output);
+		return (NULL);
+	}
+	*output = join_and_free(&zeros, output, err);
+	return (*output);
+}
+
 /*
 char	*print_output(char **output, int *len, int *err, char *conv)
 {
