@@ -12,12 +12,12 @@
 
 #include "ft_printf_bonus.h"
 
-char	*create_output(t_percent *opt, va_list va, int *len, int *err)
+char	*create_output(t_percent *opt, va_list va, int *err)
 {
 	if (opt->conv == '%')
 		return (char_to_str('%', err));
 	else if (opt->conv == 'c')
-		return (create_output_char((char)va_arg(va, int), opt, len, err));
+		return (create_output_char((char)va_arg(va, int), opt, err));
 	else if (opt->conv == 's')
 		return (create_output_string(va_arg(va, char *), opt, err));
 	else if (opt->conv == 'p')

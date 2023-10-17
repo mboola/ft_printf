@@ -40,18 +40,19 @@ typedef struct t_percent
 	char	base;
 	int		num_spaces;
 	int		num_zeros;
+	char	is_null;
 }	t_percent;
 
 int		ft_printf(char const *str, ...);
 void	create_options(char *str, t_percent *options, va_list va, int *err);
-char	*create_output(t_percent *options, va_list va, int *len, int *err);
-char	*create_output_char(char c, t_percent *opt, int *len, int *err);
+char	*create_output(t_percent *options, va_list va, int *err);
+char	*create_output_char(char c, t_percent *opt, int *err);
 char	*create_output_string(char *output, t_percent *opt, int *err);
 char	*create_output_pointer(void *ptr, t_percent *opt, int *err);
 char	*create_output_int(int n, t_percent *opt, int *err);
 char	*create_output_unsint(unsigned int n, t_percent *opt, int *err);
 char	*create_output_hexa(unsigned int n, t_percent *opt, int *err);
-void	print_and_free_output(char **output, int *len, int *err);
+void	print_and_free_output(char **output, t_percent *opt, int *len, int *err);
 int		get_nums(t_percent *opt, va_list va, int *err);
 char	*get_raw_output(char conv, va_list va, int *err);
 char	*putnbr_sig_err(int nbr, char *base, int *err);

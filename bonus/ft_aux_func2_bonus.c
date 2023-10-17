@@ -34,10 +34,13 @@ static void	ft_putstr_err(char	*str, int *len, int *err)
 	}
 }
 
-void	print_and_free_output(char **output, int *len, int *err)
+void	print_and_free_output(char **output, t_percent *opt, int *len, int *err)
 {
-	//tests of char and other things before printing 
+	if (opt->is_null && opt->sp_inv)
+		ft_putchar_err('\0', len, err);
 	ft_putstr_err(*output, len, err);
+	if (opt->is_null && !(opt->sp_inv))
+		ft_putchar_err('\0', len, err);
 	free(*output);
 }
 

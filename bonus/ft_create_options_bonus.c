@@ -38,6 +38,7 @@ static int	get_info_conv(t_percent *opt, char *str, int *err)
 	opt->base = 0;
 	opt->num_spaces = 0;
 	opt->num_zeros = 0;
+	opt->is_null = 0;
 	return (1);
 }
 

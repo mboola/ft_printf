@@ -35,10 +35,10 @@ static char	*convert_and_print(char *str, int *len, va_list va, int *err)
 	create_options(str, options, va, err);
 	if (*err == -1)
 		return (del_t_percent(options, str));
-	output = create_output(options, va, len, err);
+	output = create_output(options, va, err);
 	if (*err == -1)
 		return (del_t_percent(options, str));
-	print_and_free_output(&output, len, err);
+	print_and_free_output(&output, options, len, err);
 	if (*err == -1)
 		return (del_t_percent(options, str));
 	info_len = ft_strlen(options->info);
@@ -56,7 +56,7 @@ static int	print_all_output(char *str, va_list va, int *err)
 		if (*str == '%')
 			str = convert_and_print(str, &len, va, err);
 		else
-			ft_putchar_err(*str, err, &len);
+			ft_putchar_err(*str, &len, err);
 		if (*err != -1)
 			str++;
 	}
@@ -79,7 +79,7 @@ int	ft_printf(char const *s, ...)
 	va_start(va, s);
 	len = print_all_output(str, va, &err);
 	va_end(va);
-	if (err)
+	if (err == -1)
 		return (-1);
 	return (len);
 }

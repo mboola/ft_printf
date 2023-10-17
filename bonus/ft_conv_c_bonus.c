@@ -31,13 +31,13 @@ char	*char_to_str(char c, int *err)
 	return (str);
 }
 
-char	*create_output_char(char c, t_percent *opt, int *len, int *err)
+char	*create_output_char(char c, t_percent *opt, int *err)
 {
 	char	*output;
 	char	*spaces;
 
 	if (c == '\0')
-		*len += 1;
+		opt->is_null = 1;
 	output = char_to_str(c, err);
 	if (*err == -1)
 		return (NULL);
