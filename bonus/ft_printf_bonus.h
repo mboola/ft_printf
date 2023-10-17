@@ -44,6 +44,7 @@ typedef struct t_percent
 }	t_percent;
 
 int		ft_printf(char const *str, ...);
+<<<<<<< HEAD
 void	create_options(char *str, t_percent *options, va_list va, int *err);
 char	*create_output(t_percent *options, va_list va, int *err);
 char	*create_output_char(char c, t_percent *opt, int *err);
@@ -55,6 +56,20 @@ char	*create_output_hexa(unsigned int n, t_percent *opt, int *err);
 void	print_and_free_output(char **output, t_percent *opt, int *len, int *err);
 int		get_nums(t_percent *opt, va_list va, int *err);
 char	*get_raw_output(char conv, va_list va, int *err);
+=======
+char	*join_and_free(char **s1, char **s2, int *err);
+char	*print_and_reset(char **msg, int *len, int *err, int reset);
+char	*convert_to_output(char *str, char **msg, int *err, va_list va);
+char	*print_output(char **output, int *len, int *err, char *conv);
+int		check_options(t_percent *options, va_list va);
+
+int		check_nums(t_percent *options, va_list va);
+char	get_flag(char *str, char conv);
+int		is_conversion(char c);
+char	*create_output(t_percent *options, int *err, va_list va);
+char	*add_0x_front(char *str, int *err, int upper);
+char	*ft_putptr(void *ptr, char *base, int *err);
+>>>>>>> ca1fe68f4f8db8e02dab1cf16155efaed7a017c8
 char	*putnbr_sig_err(int nbr, char *base, int *err);
 char	*putnbr_uns_err(unsigned int nbr, char *base, int *err);
 char	*add_spaces(char **output, t_percent *options, int *err);
