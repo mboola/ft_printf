@@ -58,25 +58,5 @@ int	get_nums(t_percent *opt, va_list va, int *err)
 		*err = -1;
 		return (0);
 	}
-<<<<<<< HEAD:bonus/ft_get_nums_bonus.c
 	return (1);
-=======
-	return (count);
-}
-
-int	check_options(t_percent *options, va_list va)
-{
-	if (options->info == NULL)
-		return (0);
-	options->conv = get_conversion(options->info);
-	if (!options->conv)
-		return (0);
-	options->prec = get_precision(options->info, options->conv);
-	if (options->prec == -1)
-		return (0);
-	options->flag = get_flag(options->info, options->conv);
-	if (!options->flag)
-		return (0);
-	return (check_nums(options, va));
->>>>>>> ca1fe68f4f8db8e02dab1cf16155efaed7a017c8:bonus/ft_check_options_bonus.c
 }
