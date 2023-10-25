@@ -17,6 +17,7 @@ static int	get_info_conv(t_percent *opt, char *str, int *err)
 	int		count;
 
 	count = 0;
+	opt->info = NULL;
 	while (*(str + count) != '\0' && !is_conversion(*(str + count)))
 		count++;
 	if (*(str + count) == '\0')
