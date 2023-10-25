@@ -110,6 +110,7 @@ static int	get_flags(t_percent *opt, int *err)
 	if (ft_strchr(flags_sub, '#') != NULL && (opt->conv == 'x'
 			|| opt->conv == 'X'))
 		opt->base = 1;
+	free(flags_sub);
 	return (1);
 }
 
