@@ -28,8 +28,13 @@ char	*create_output_string(char *input, t_percent *opt, int *err)
 	char	*spaces;
 	char	*output;
 
-	if (input == NULL && opt->num_zeros > 0 &&  opt->num_zeros < 6)
-		output = copy_str("\0", err);
+	if (input == NULL)
+	{
+		if (opt->prec && opt->num_spaces > 0 && opt->num_spaces < 6)
+			output = copy_str("\0", err);
+		else
+			output = copy_str(input, err);
+	}
 	else
 		output = copy_str(input, err);
 	if (opt->prec)

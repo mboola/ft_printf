@@ -78,10 +78,10 @@ char	*create_output_pointer(void *ptr, t_percent *opt, int *err)
 	char	*output;
 	char	*spaces;
 
-	if (ptr == NULL)
+	/*if (ptr == NULL && *(opt->info) != opt->conv)
 		output = copy_str("(nil)", err);
-	else
-		output = ft_putptr(ptr, HEXBASEL, err);
+	else*/
+	output = ft_putptr(ptr, HEXBASEL, err);
 	spaces = create_str(opt->num_spaces - ft_strlen(output), ' ', err);
 	if (*err == -1)
 	{

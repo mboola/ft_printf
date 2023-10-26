@@ -12,11 +12,11 @@
 
 #include "ft_printf_bonus.h"
 
-static char	*create_front(t_percent *opt, int *err)
+static char	*create_front(t_percent *opt, int *err, unsigned int n)
 {
 	char	*front;
 
-	if (opt->base)
+	if (opt->base && n != 0)
 	{
 		if (opt->conv == 'x')
 			front = ft_strdup("0x");
@@ -49,7 +49,7 @@ char	*create_output_hexa(unsigned int n, t_percent *opt, int *err)
 		output = putnbr_uns_err(n, HEXBASEH, err);
 	if (*err == -1)
 		return (NULL);
-	front = create_front(opt, err);
+	front = create_front(opt, err, n);
 	if (opt->prec)
 		output = add_zeros(&output, opt, 0, err);
 	else if (opt->zero)

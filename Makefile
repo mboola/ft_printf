@@ -2,6 +2,7 @@
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+DEBUG	=	#-g
 
 LIBFT_DIR 		=	./libft
 LIBFT 			=	libft.a
@@ -20,13 +21,13 @@ BONUS_FILES 	=	${BONUS_SRCS}/ft_aux_func1_bonus.c ${BONUS_SRCS}/ft_aux_func2_bon
 					${BONUS_SRCS}/ft_conv_i_and_d_bonus.c ${BONUS_SRCS}/ft_conv_p_bonus.c \
 					${BONUS_SRCS}/ft_conv_s_bonus.c ${BONUS_SRCS}/ft_conv_u_bonus.c \
 					${BONUS_SRCS}/ft_create_options_bonus.c ${BONUS_SRCS}/ft_create_output_bonus.c \
-					${BONUS_SRCS}/ft_get_nums_bonus.c ${BONUS_SRCS}/ft_get_raw_output_bonus.c \
+					${BONUS_SRCS}/ft_get_nums_bonus.c \
 					${BONUS_SRCS}/ft_putnbrbase_err_bonus.c ${BONUS_SRCS}/ft_printf_bonus.c
 BONUS_OBJS		=	$(BONUS_FILES:_bonus.c=_bonus.o)
 
 # COMPILE  -L. -lft 
 %_bonus.o: %_bonus.c ${BONUS_HEADER} Makefile ${LIBFT}
-	${CC} ${CFLAGS} -I ${BONUS_SRCS} -I ${LIBFT_DIR} -c $< -o $@
+	${CC} ${CFLAGS} -I ${BONUS_SRCS} -I ${LIBFT_DIR} -c $< -o $@ ${DEBUG}
 
 %.o: %.c ${HEADER} Makefile
 	${CC} ${CFLAGS} -I ${SRCS} -c $< -o $@

@@ -15,8 +15,8 @@
 char	*create_output(t_percent *opt, va_list va, int *err)
 {
 	if (opt->conv == '%')
-		return (char_to_str('%', err));
-	else if (opt->conv == 'c')
+		return (create_output_char('%', opt, err));
+	if (opt->conv == 'c' || opt->conv == '%')
 		return (create_output_char((char)va_arg(va, int), opt, err));
 	else if (opt->conv == 's')
 		return (create_output_string(va_arg(va, char *), opt, err));
